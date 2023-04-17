@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b03da61a-a1d2-45c0-9401-bb6ad2b196e1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/AbstractAuthorizationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/AuthorizationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/PasswordResetController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/RegistrationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/ServiceController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/AuthenticateModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/Endpoints.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/HttpRequestTypes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/ServerRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/responses/AuthorizationErrors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/responses/AuthorizationSuccessResponses.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Service.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/Iot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/Iot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/AuthorizationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/PasswordResetController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/RegistrationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/AuthorizationModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/HttpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/HttpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/ServerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/ServerResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/UserProfileModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/UserProfileModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/requests/AuthorizedResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/requests/RegistrationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/requests/ResetPasswordResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/requests/SendVerifyResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/requests/UpdateToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/responses/authorization/AuthorizationErrors.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/responses/authorization/AuthorizationSuccessResponses.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/scenes/SceneChanger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/scenes/SceneChanger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/scenes/ScenesNames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/scenes/ScenesNames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Authorization.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Authorization.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Connection.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Connection.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Contact.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Contact.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/MainAuthorization.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/MainAuthorization.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/ResetPassword.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/ResetPassword.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/MainController$ButtonsStyle$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/MainController$ButtonsStyle$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/MainController$ButtonsStyle$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/MainController$ButtonsStyle$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/MainController$ButtonsStyle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/MainController$ButtonsStyle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/MainController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/AuthorizationModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/HttpClient$HttpClientRunner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/HttpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/HttpClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/UserProfileModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/UserProfileModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/requests/AuthorizedResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/requests/RegistrationResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/requests/ResetPasswordResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/requests/SendVerifyResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/requests/UpdateToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationErrors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationSuccessResponses$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationSuccessResponses$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationSuccessResponses$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/responses/authorization/AuthorizationSuccessResponses.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/Authorization.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/Authorization.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/ConfirmPassword.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/Connection.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/Connection.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/Contact.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/Contact.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/Main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/Main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/MainAuthorization.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/MainAuthorization.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/ResetPassword.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/ResetPassword.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/SceneChanger$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/SceneChanger$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/SceneChanger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/SceneChanger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/ScenesNames.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/ScenesNames.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/temp.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2OPksvKLiJZT2GI7FgMCL2g6ob4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/сергей/AppData/Local/SceneBuilder/SceneBuilder.exe&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\сергей\Documents\GitHub\My_Client\src\main\resources\com\iot\scenes" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b03da61a-a1d2-45c0-9401-bb6ad2b196e1" name="Changes" comment="" />
+      <created>1681469824364</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681469824364</updated>
+    </task>
+    <servers />
+  </component>
+</project>

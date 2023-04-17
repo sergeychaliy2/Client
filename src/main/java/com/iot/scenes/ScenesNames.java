@@ -1,0 +1,15 @@
+package com.iot.scenes;
+
+public enum ScenesNames
+{
+    MAIN,
+    CONNECTION,
+    CONTACT,
+    AUTHORIZATION,
+    CONFIRM_PASSWORD,
+    RESET_PASSWORD,
+    MAIN_SERVICE,
+    MAIN_AUTHORIZATION,
+    AUTHORIZATION_ADVANCED,
+    AUTHORIZATION_MAIN_SERVICE
+}

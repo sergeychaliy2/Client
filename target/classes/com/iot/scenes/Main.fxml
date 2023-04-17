@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iot.controllers.MainController">
+   <children>
+      <VBox prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <HBox prefHeight="91.0" prefWidth="1280.0" style="-fx-background-color: #D9D9D9; -fx-border-color: #2E2D2D;">
+               <children>
+                  <Button fx:id="connectSceneBtn" mnemonicParsing="false" onMouseClicked="#connectionScene" prefHeight="39.0" prefWidth="158.0" style="-fx-background-color: #D9D9D9;" text="Регистрация">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="inputMenuBtn" alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#authorizationScene" prefHeight="39.0" prefWidth="68.0" style="-fx-background-color: #D9D9D9;" text="Вход" translateY="25.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="serviceMenuBtn" mnemonicParsing="false" onMouseClicked="#serviceUser" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: #D9D9D9;" text="Управление" translateY="25.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="552.0" prefWidth="1280.0">
+               <children>
+                  <VBox prefHeight="544.0" prefWidth="1229.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="158.0" prefWidth="405.0" text="IOT " textFill="#d9d9d9">
+                           <font>
+                              <Font name="Montserrat Black" size="92.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="135.0" prefWidth="985.0" text="HOME SERVICE" textFill="#5b5b5b">
+                           <font>
+                              <Font name="Montserrat Black" size="76.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </Label>
+                        <Button fx:id="connectBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#connectBtnPushed" onMouseExited="#exitedConnectBtn" onMouseMoved="#movedConnectBtn" style="-fx-background-color: #B2AFAF;" text="Регистрация" textAlignment="CENTER" translateX="280.0" translateY="50.0">
+                           <VBox.margin>
+                              <Insets left="270.0" top="50.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Text fx:id="mainInfo" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" translateX="495.0" translateY="70.0" wrappingWidth="261.13671875" />
+                     </children>
+                  </VBox>
+               </children></HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="68.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="220.0" top="25.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@/icon_github.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="37.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/icon_gmail.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" top="25.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children></HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

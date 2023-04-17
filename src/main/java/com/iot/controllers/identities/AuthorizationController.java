@@ -1,0 +1,88 @@
+package com.iot.controllers.identities;
+
+import com.iot.controllers.UserController;
+import com.iot.model.*;
+import com.iot.model.responses.AuthorizationErrors;
+import com.iot.model.responses.AuthorizationSuccessResponses;
+import javafx.scene.image.ImageView;
+import org.apache.http.HttpStatus;
+import org.json.simple.JSONObject;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import java.util.regex.Matcher;
+
+
+public class AuthorizationController extends AbstractAuthorizationController {
+    @FXML private  TextField emailText;
+    @FXML private TextField passwordText;
+    @FXML private Text infoTextLabel;
+    @FXML private ImageView loadingCircle;
+
+    @FXML
+    protected void initialize() {
+        setLoadingCircle(this.loadingCircle);
+        setInfoTextLabel(this.infoTextLabel);
+    }
+    @Override
+    protected void transactServerResponse(ServerResponse response) {
+        try {
+            JSONParser parser = new JSONParser();
+            switch (response.responseCode()) {
+                case HttpStatus.SC_ACCEPTED ->  {
+                    JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
+                        AuthenticateModel.getInstance().setAccessToken(
+                                resultObject.get("accessToken").toString());
+                    AuthenticateModel.getInstance().setRefreshToken(
+                                resultObject.get("refreshToken").toString());
+                        infoTextLabel.setText(AuthorizationSuccessResponses.AUTHORIZATIN_COMPLETE.toString());
+                    UserController.statusUser =true;
+                }
+                case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
+                    JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
+
+                    String message = switch (resultObject.get("code").toString()) {
+                        case "EA03"  -> AuthorizationErrors.USER_ALREADY_EXISTS.toString();
+                        case "EA05"  -> AuthorizationErrors.PASSWORD_IS_NOT_CORRECT.toString();
+                        default      -> null;
+                    };
+
+//                    if (message == null && resultObject.get("code").equals("ET01")) {
+//                        AuthorizationModel.getInstance().updateToken(this);
+//                        return;
+//                    }
+
+                    infoTextLabel.setText(message);
+                }
+            }
+        } catch (ParseException e) {infoTextLabel.setText(e.getMessage());}
+    }
+    @FXML
+    protected void inputClicked()
+    {
+        clearErrorLabel();
+        Matcher matcherPassword = patternPassword.matcher(passwordText.getText());
+        Matcher matcherLogin = patternLogin.matcher(emailText.getText());
+        try {
+            if ((matcherPassword.matches()) && (matcherLogin.matches())) {
+                UserProfileModel.getInstance().setUserInstance(emailText.getText());
+                JSONObject obj = new JSONObject();
+                obj.put("email", emailText.getText());
+                obj.put("password", passwordText.getText());
+                String endPoint = Endpoints.AUTHORIZATION.toString();
+//                AuthorizationModel.getInstance().setRequest(
+//                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
+//                );
+                loadingCircle.setVisible(true);
+                HttpClient.getInstance().post(obj, endPoint);
+                checkServerResponseIs();
+            } else {
+                infoTextLabel.setText(AuthorizationErrors.ERROR_AUTHORIZED.toString());
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+}
