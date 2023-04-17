@@ -38,7 +38,7 @@ public class AuthorizationController extends AbstractAuthorizationController {
                                 resultObject.get("accessToken").toString());
                     AuthenticateModel.getInstance().setRefreshToken(
                                 resultObject.get("refreshToken").toString());
-                    infoTextLabel.setText(AuthorizationSuccessResponses.AUTHORIZATION_COMPLETE.toString());
+                    setInfoTextLabelText(AuthorizationSuccessResponses.AUTHORIZATION_COMPLETE.toString());
                     UserController.statusUser = true;
                 }
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
@@ -60,7 +60,7 @@ public class AuthorizationController extends AbstractAuthorizationController {
         } catch (ParseException e) {setInfoTextLabelText((e.getMessage()));}
     }
     @FXML
-    protected void inputClicked()
+    protected void userAuthorization()
     {
         clearErrorLabel();
         Matcher matcherPassword = patternPassword.matcher(passwordText.getText());

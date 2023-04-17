@@ -36,7 +36,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
             JSONParser parser = new JSONParser();
             switch (response.responseCode()) {
                 case HttpStatus.SC_OK -> {
-                    infoTextLabel.setText("Пароль был сброшен");
+                    setInfoTextLabelText("Пароль был сброшен");
                     UserController.statusUser =false;
                 }
 
@@ -46,17 +46,17 @@ public class PasswordResetController extends AbstractAuthorizationController {
                     if (responseMessage.equals(AuthorizationSuccessResponses.VERIFICATION_CODE_SENT.toString())) {
                         emailResetPassword.setDisable(true);
                         emailResetPassword.setOpacity(0.5);
-                        infoTextLabel.setText(AuthorizationSuccessResponses.RESET_CODE_WAS_SENT.toString());
+                        setInfoTextLabelText(AuthorizationSuccessResponses.RESET_CODE_WAS_SENT.toString());
                         passwordResetConfirmation.setVisible(true);
                         passwordResetConfirmation.setOpacity(1.0);
                         passwordResetConfirmation.setDisable(false);//активна
                     } else if (responseMessage.equals(AuthorizationSuccessResponses.DATA_CHANGED.toString())) {
-                        infoTextLabel.setText(AuthorizationSuccessResponses.PASSWORD_RESET.toString());
+                        setInfoTextLabelText(AuthorizationSuccessResponses.PASSWORD_RESET.toString());
 
                     } else {
                         codeResetPassword.setDisable(true);
                         codeResetPassword.setOpacity(0.5);
-                        infoTextLabel.setText(AuthorizationSuccessResponses.RESET_CODE_IS_RIGHT.toString());
+                        setInfoTextLabelText(AuthorizationSuccessResponses.RESET_CODE_IS_RIGHT.toString());
                         newPasswordTextField.setVisible(true);
                         newPasswordTextField.setOpacity(1.0);
                         newPasswordTextField.setEditable(true);
@@ -76,10 +76,10 @@ public class PasswordResetController extends AbstractAuthorizationController {
 //                        AuthorizationModel.getInstance().updateToken();
 //                    }
 
-                    infoTextLabel.setText(message);
+                    setInfoTextLabelText(message);
                 }
             }
-        } catch (ParseException e) {infoTextLabel.setText(e.getMessage());}
+        } catch (ParseException e) {setInfoTextLabelText(e.getMessage());}
     }
     @FXML
     protected void sendCodeToEmail() {
@@ -105,7 +105,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
             }else {
-                infoTextLabel.setText(AuthorizationErrors.EMAIL_MESSAGE_FAILED.toString());
+                setInfoTextLabelText(AuthorizationErrors.EMAIL_MESSAGE_FAILED.toString());
             }
         }catch (Exception ex){
             ex.printStackTrace();
@@ -129,7 +129,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
             } else {
-                infoTextLabel.setText(AuthorizationErrors.VERIFICATION_CODE_IS_NOT_VALID.toString());
+                setInfoTextLabelText(AuthorizationErrors.VERIFICATION_CODE_IS_NOT_VALID.toString());
             }
         }catch (Exception ex){
             ex.printStackTrace();
@@ -152,7 +152,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
             } else {
-                infoTextLabel.setText(AuthorizationErrors.PASSWORD_FORMAT_IS_INCORRECT.toString());
+                setInfoTextLabelText(AuthorizationErrors.PASSWORD_FORMAT_IS_INCORRECT.toString());
             }
         }catch (Exception ex){
             ex.printStackTrace();

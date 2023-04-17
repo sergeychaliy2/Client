@@ -45,7 +45,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                         AuthenticateModel.getInstance().setRefreshToken(
                                 resultObject.get("refreshToken").toString()
                         );
-                        infoTextLabel.setText(AuthorizationSuccessResponses.SUCCESSFULLY_REGISTRATION.toString());
+                        setInfoTextLabelText(AuthorizationSuccessResponses.SUCCESSFULLY_REGISTRATION.toString());
 //                        Platform.runLater(this::homeScene);
                     } else {
                         String responseMessage = resultObject.get("msg").toString();
@@ -55,14 +55,14 @@ public class RegistrationController extends AbstractAuthorizationController{
                             changeEmailBtn.setVisible(true);
                             changeEmailBtn.setDisable(false);
                             verifyCodeTField.setEditable(true);
-                            infoTextLabel.setText(AuthorizationSuccessResponses.VERIFICATION_CODE_WAS_SENT.toString());
+                            setInfoTextLabelText(AuthorizationSuccessResponses.VERIFICATION_CODE_WAS_SENT.toString());
                         }
                         else {
                             verifyCodeTField.setDisable(true);
                             verifyCodeActionBtn.setDisable(true);
                             userPasswordTField.setDisable(false);
                             userPasswordTField.setEditable(true);
-                            infoTextLabel.setText(AuthorizationSuccessResponses.VERIFICATION_CODE_IS_RIGHT.toString());
+                            setInfoTextLabelText(AuthorizationSuccessResponses.VERIFICATION_CODE_IS_RIGHT.toString());
                         }
                     }
 
@@ -84,10 +84,10 @@ public class RegistrationController extends AbstractAuthorizationController{
 //                        AuthorizationModel.getInstance().updateToken();
 //                    }
 
-                    infoTextLabel.setText(message);
+                    setInfoTextLabelText(message);
                 }
             }
-        } catch (ParseException e) { infoTextLabel.setText(e.getMessage()); }
+        } catch (ParseException e) { setInfoTextLabelText(e.getMessage()); }
 
     }
 
@@ -123,7 +123,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                     HttpClient.getInstance().post(obj, endPoint);
                     checkServerResponseIs();
                 } else {
-                    infoTextLabel.setText(AuthorizationErrors.EMAIL_FORMAT_IS_NOT_VALID.toString());
+                    setInfoTextLabelText(AuthorizationErrors.EMAIL_FORMAT_IS_NOT_VALID.toString());
                 }
             }
             case "Подтвердить" -> {
@@ -140,7 +140,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                     HttpClient.getInstance().post(obj, endPoint);
                     checkServerResponseIs();
                 } else {
-                    infoTextLabel.setText(AuthorizationErrors.ERROR_VERIFICATION_CODE_LENGTH_OR_FORMAT_INCORRECT.toString());
+                    setInfoTextLabelText(AuthorizationErrors.ERROR_VERIFICATION_CODE_LENGTH_OR_FORMAT_INCORRECT.toString());
                 }
             }
         }
@@ -166,7 +166,7 @@ public class RegistrationController extends AbstractAuthorizationController{
             HttpClient.getInstance().post(obj, endPoint);
             checkServerResponseIs();
         } else {
-            infoTextLabel.setText(AuthorizationErrors.FORM_IS_NOT_FILLED_OR_HAS_INCORRECT_DATA.toString());
+            setInfoTextLabelText(AuthorizationErrors.FORM_IS_NOT_FILLED_OR_HAS_INCORRECT_DATA.toString());
         }
     }
     @FXML protected void showPassword() {

@@ -66,13 +66,13 @@ public class AbstractAuthorizationController {
     protected void serviceUser() {
         if(UserController.statusUser){
             try {
-                infoTextLabel.setText(AuthorizationErrors.AUTHORIZED_SERVICE.toString());
+                setInfoTextLabelText(AuthorizationErrors.AUTHORIZED_SERVICE.toString());
                 new SceneChanger(AUTHORIZATION_MAIN_SERVICE).start(getThisStage());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }else {
-            infoTextLabel.setText(AuthorizationErrors.NOT_AUTHORIZED.toString());
+            setInfoTextLabelText(AuthorizationErrors.NOT_AUTHORIZED.toString());
         }
     }
     @FXML
@@ -102,7 +102,7 @@ public class AbstractAuthorizationController {
         }
     }
     protected void clearErrorLabel() {
-        infoTextLabel.setText("");
+        setInfoTextLabelText("");
     }
 
     protected void setInfoTextLabel(Text infoTextLabel) {

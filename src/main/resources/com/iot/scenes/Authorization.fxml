@@ -74,7 +74,7 @@
                                 <Font size="40.0" />
                             </font>
                         </Label>
-                        <Button fx:id="input" layoutX="557.0" layoutY="382.0" mnemonicParsing="false" onMouseClicked="#inputClicked" prefHeight="49.0" prefWidth="173.0" style="-fx-background-color: #B2AFAF; -fx-border-radius: 5; -fx-background-radius: 5;" text="Войти">
+                        <Button fx:id="input" layoutX="557.0" layoutY="382.0" mnemonicParsing="false" onMouseClicked="#userAuthorization" prefHeight="49.0" prefWidth="173.0" style="-fx-background-color: #B2AFAF; -fx-border-radius: 5; -fx-background-radius: 5;" text="Войти">
                             <font>
                                 <Font name="System Bold" size="18.0" />
                             </font>
