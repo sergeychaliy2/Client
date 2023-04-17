@@ -61,6 +61,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                             verifyCodeTField.setDisable(true);
                             verifyCodeActionBtn.setDisable(true);
                             userPasswordTField.setDisable(false);
+                            userPasswordTField.setEditable(true);
                             infoTextLabel.setText(AuthorizationSuccessResponses.VERIFICATION_CODE_IS_RIGHT.toString());
                         }
                     }
@@ -128,7 +129,6 @@ public class RegistrationController extends AbstractAuthorizationController{
             case "Подтвердить" -> {
                 Matcher matcherCode = patternCode.matcher(verifyCodeTField.getText());
                 if (matcherCode.matches()) {
-                    userPasswordTField.setEditable(true);
                     JSONObject obj = new JSONObject();
                     obj.put("email", userEmailTField.getText());
                     obj.put("code", Integer.parseInt(verifyCodeTField.getText()));
@@ -155,7 +155,7 @@ public class RegistrationController extends AbstractAuthorizationController{
         Matcher matcherPassword = patternPassword.matcher(userPasswordTField.getText());
         Matcher matcherLogin = patternLogin.matcher(userEmailTField.getText());
 
-        if ((matcherPassword.matches()) && (matcherLogin.matches())) {
+        if (matcherLogin.matches() && matcherPassword.matches()) {
             JSONObject obj = new JSONObject();
             obj.put("email", userEmailTField.getText());
             obj.put("password", userPasswordTField.getText());
@@ -166,7 +166,7 @@ public class RegistrationController extends AbstractAuthorizationController{
             HttpClient.getInstance().post(obj, endPoint);
             checkServerResponseIs();
         } else {
-            infoTextLabel.setText(AuthorizationErrors.PASSWORD_FORMAT_IS_INCORRECT.toString());
+            infoTextLabel.setText(AuthorizationErrors.FORM_IS_NOT_FILLED_OR_HAS_INCORRECT_DATA.toString());
         }
     }
     @FXML protected void showPassword() {
@@ -179,6 +179,7 @@ public class RegistrationController extends AbstractAuthorizationController{
         usersPasswordViewTField.setOpacity(0);
         usersPasswordViewTField.setDisable(true);
     }
+
 
     /**
      * state == true, когда кнопка включена, соответственно state == false - выключена

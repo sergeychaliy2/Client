@@ -3,6 +3,13 @@ package com.iot.model.responses;
 
 public enum AuthorizationErrors{
 
+    FORM_IS_NOT_FILLED_OR_HAS_INCORRECT_DATA {
+      @Override
+      public String toString() {
+          return "Форма не заполнена\nили содержит некорректные данные";
+      }
+    },
+
     PASSWORD_FORMAT_IS_INCORRECT {
         @Override
         public String toString() {
@@ -104,7 +111,7 @@ public enum AuthorizationErrors{
     ERROR_AUTHORIZED {
         @Override
         public String toString() {
-            return "";
+            return "Ошибка авторизации";
         }
     };
 }

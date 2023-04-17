@@ -119,7 +119,7 @@
                               <Insets left="70.0" top="20.0" />
                            </VBox.margin>
                         </Text>
-                        <Button fx:id="registerBtn" mnemonicParsing="false" onMouseClicked="#register" prefHeight="49.0" prefWidth="203.0" style="-fx-background-color: #B2AFAF; -fx-border-radius: 5; -fx-background-radius: 5;" text="Зарегистрироваться">
+                        <Button mnemonicParsing="false" onMouseClicked="#register" prefHeight="49.0" prefWidth="203.0" style="-fx-background-color: #B2AFAF; -fx-border-radius: 5; -fx-background-radius: 5;" text="Зарегистрироваться">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>

@@ -4,6 +4,7 @@ import com.iot.controllers.UserController;
 import com.iot.model.*;
 import com.iot.model.responses.AuthorizationErrors;
 import com.iot.model.responses.AuthorizationSuccessResponses;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
@@ -16,7 +17,7 @@ import java.util.regex.Matcher;
 
 
 public class AuthorizationController extends AbstractAuthorizationController {
-    @FXML private  TextField emailText;
+    @FXML private TextField emailText;
     @FXML private TextField passwordText;
     @FXML private Text infoTextLabel;
     @FXML private ImageView loadingCircle;
@@ -37,14 +38,14 @@ public class AuthorizationController extends AbstractAuthorizationController {
                                 resultObject.get("accessToken").toString());
                     AuthenticateModel.getInstance().setRefreshToken(
                                 resultObject.get("refreshToken").toString());
-                        infoTextLabel.setText(AuthorizationSuccessResponses.AUTHORIZATIN_COMPLETE.toString());
-                    UserController.statusUser =true;
+                    infoTextLabel.setText(AuthorizationSuccessResponses.AUTHORIZATION_COMPLETE.toString());
+                    UserController.statusUser = true;
                 }
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
 
                     String message = switch (resultObject.get("code").toString()) {
-                        case "EA03"  -> AuthorizationErrors.USER_ALREADY_EXISTS.toString();
+                        case "EE03"  -> AuthorizationErrors.USER_ALREADY_EXISTS.toString();
                         case "EA05"  -> AuthorizationErrors.PASSWORD_IS_NOT_CORRECT.toString();
                         default      -> null;
                     };
@@ -53,11 +54,10 @@ public class AuthorizationController extends AbstractAuthorizationController {
 //                        AuthorizationModel.getInstance().updateToken(this);
 //                        return;
 //                    }
-
-                    infoTextLabel.setText(message);
+                    setInfoTextLabelText((message));
                 }
             }
-        } catch (ParseException e) {infoTextLabel.setText(e.getMessage());}
+        } catch (ParseException e) {setInfoTextLabelText((e.getMessage()));}
     }
     @FXML
     protected void inputClicked()
@@ -65,24 +65,20 @@ public class AuthorizationController extends AbstractAuthorizationController {
         clearErrorLabel();
         Matcher matcherPassword = patternPassword.matcher(passwordText.getText());
         Matcher matcherLogin = patternLogin.matcher(emailText.getText());
-        try {
-            if ((matcherPassword.matches()) && (matcherLogin.matches())) {
-                UserProfileModel.getInstance().setUserInstance(emailText.getText());
-                JSONObject obj = new JSONObject();
-                obj.put("email", emailText.getText());
-                obj.put("password", passwordText.getText());
-                String endPoint = Endpoints.AUTHORIZATION.toString();
+        if ((matcherPassword.matches()) && (matcherLogin.matches())) {
+            UserProfileModel.getInstance().setUserInstance(emailText.getText());
+            JSONObject obj = new JSONObject();
+            obj.put("email", emailText.getText());
+            obj.put("password", passwordText.getText());
+            String endPoint = Endpoints.AUTHORIZATION.toString();
 //                AuthorizationModel.getInstance().setRequest(
 //                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                );
-                loadingCircle.setVisible(true);
-                HttpClient.getInstance().post(obj, endPoint);
-                checkServerResponseIs();
-            } else {
-                infoTextLabel.setText(AuthorizationErrors.ERROR_AUTHORIZED.toString());
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
+            loadingCircle.setVisible(true);
+            HttpClient.getInstance().post(obj, endPoint);
+            checkServerResponseIs();
+        } else {
+            setInfoTextLabelText((AuthorizationErrors.ERROR_AUTHORIZED.toString()));
         }
     }
 }

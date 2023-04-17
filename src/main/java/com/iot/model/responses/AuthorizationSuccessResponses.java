@@ -29,7 +29,7 @@ public enum AuthorizationSuccessResponses {
             return "Пароль успешно сброшен";
         }
     },
-    AUTHORIZATIN_COMPLETE {
+    AUTHORIZATION_COMPLETE {
         @Override public String toString() {
             return "Авторизация успешно пройдена";
         }

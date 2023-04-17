@@ -61,6 +61,7 @@ public class AbstractAuthorizationController {
             throw new RuntimeException(e);
         }
     }
+
     @FXML
     protected void serviceUser() {
         if(UserController.statusUser){
@@ -104,8 +105,12 @@ public class AbstractAuthorizationController {
         infoTextLabel.setText("");
     }
 
-    public void setInfoTextLabel(Text infoTextLabel) {
+    protected void setInfoTextLabel(Text infoTextLabel) {
         this.infoTextLabel = infoTextLabel;
+    }
+
+    protected void setInfoTextLabelText(String text) {
+        this.infoTextLabel.setText(text);
     }
 
 }
