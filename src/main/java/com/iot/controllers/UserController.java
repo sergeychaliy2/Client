@@ -18,7 +18,6 @@ public class UserController implements Initializable {
     @FXML private Button contactMenuBtn;
     @FXML private ComboBox userComboBox;
     private final String str="Выход";
-    public static boolean statusUser=false;
     private Stage getThisStage() {
         return (Stage) contactMenuBtn.getScene().getWindow();
     }

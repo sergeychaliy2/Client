@@ -29,12 +29,6 @@ public enum AuthorizationErrors{
             return "Для управленияя вы должны быть авторизованы";
         }
     },
-    AUTHORIZED_SERVICE {
-        @Override
-        public String toString() {
-            return "Управление доступно для использования";
-        }
-    },
 
     VERIFICATION_CODE_IS_NOT_VALID {
         @Override

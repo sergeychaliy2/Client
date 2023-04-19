@@ -6,6 +6,7 @@ public class AuthenticateModel {
     private final static AuthenticateModel instance = new AuthenticateModel();
     private final static String temp = "temp.txt";
     private volatile ServerResponse response;
+    private boolean isAuthorized = true;
 //    private volatile ServerRequest request;
     private String accessToken;
     private String refreshToken;
@@ -107,6 +108,13 @@ public class AuthenticateModel {
             }
         }
         return file;
+    }
+
+    public boolean isAuthorized() {
+        return isAuthorized;
+    }
+    public void setAuthorized(boolean isAuthorized) {
+        this.isAuthorized = isAuthorized;
     }
 
 //    public void setRequest(ServerRequest request) {

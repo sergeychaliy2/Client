@@ -37,7 +37,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
             switch (response.responseCode()) {
                 case HttpStatus.SC_OK -> {
                     setInfoTextLabelText("Пароль был сброшен");
-                    UserController.statusUser =false;
+                    AuthenticateModel.getInstance().setAuthorized(true);
                 }
 
                 case HttpStatus.SC_ACCEPTED -> {

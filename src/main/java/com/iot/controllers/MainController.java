@@ -1,8 +1,6 @@
 package com.iot.controllers;
 
-import com.iot.model.AuthenticateModel;
-import com.iot.model.responses.AuthorizationErrors;
-import com.iot.scenes.SceneChanger;
+import com.iot.controllers.identities.AbstractAuthorizationController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
@@ -11,9 +9,8 @@ import javafx.stage.Stage;
 
 import static com.iot.controllers.MainController.ButtonsStyle.OFF;
 import static com.iot.controllers.MainController.ButtonsStyle.ON;
-import static com.iot.scenes.ScenesNames.*;
 
-public class MainController
+public class MainController extends AbstractAuthorizationController
 {
     enum ButtonsStyle
     {
@@ -36,26 +33,16 @@ public class MainController
     }
 
     @FXML private Button connectBtn;
-    @FXML private Text mainInfo;
+    @FXML private Text infoTextLabel;
 
-    private Stage getThisStage()
-    {
+    @FXML
+    protected void initialize() {
+        super.setInfoTextLabel(infoTextLabel);
+    }
+
+    @Override
+    protected Stage getThisStage() {
         return (Stage) connectBtn.getScene().getWindow();
-    }
-    @FXML
-    protected void connectionScene() throws Exception
-    {
-        new SceneChanger(CONNECTION).start(getThisStage());
-    }
-    @FXML
-    protected void authorizationScene() throws Exception
-    {
-        new SceneChanger(AUTHORIZATION).start(getThisStage());
-    }
-    @FXML
-    protected void connectBtnPushed() throws Exception
-    {
-        connectionScene();
     }
 
     @FXML
@@ -68,13 +55,6 @@ public class MainController
     protected void exitedConnectBtn()
     {
         connectBtn.setStyle(OFF.toString());
-    }
-    @FXML protected void serviceUser(){
-        if(UserController.statusUser){
-            mainInfo.setText(AuthorizationErrors.AUTHORIZED_SERVICE.toString());
-        }else {
-            mainInfo.setText(AuthorizationErrors.NOT_AUTHORIZED.toString());
-        }
     }
 
 }

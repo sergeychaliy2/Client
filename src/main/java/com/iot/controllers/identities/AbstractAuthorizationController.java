@@ -49,7 +49,7 @@ public class AbstractAuthorizationController {
     public void setLoadingCircle(ImageView loadingCircle) {
         this.loadingCircle = loadingCircle;
     }
-    private Stage getThisStage()
+    protected Stage getThisStage()
     {
         return (Stage) loadingCircle.getScene().getWindow();
     }
@@ -64,14 +64,13 @@ public class AbstractAuthorizationController {
 
     @FXML
     protected void serviceUser() {
-        if(UserController.statusUser){
+        if (AuthenticateModel.getInstance().isAuthorized()){
             try {
-                setInfoTextLabelText(AuthorizationErrors.AUTHORIZED_SERVICE.toString());
                 new SceneChanger(AUTHORIZATION_MAIN_SERVICE).start(getThisStage());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }else {
+        } else {
             setInfoTextLabelText(AuthorizationErrors.NOT_AUTHORIZED.toString());
         }
     }
@@ -97,6 +96,15 @@ public class AbstractAuthorizationController {
     protected void authorizationScene() {
         try {
             new SceneChanger(AUTHORIZATION).start(getThisStage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    protected void connectionScene() {
+        try {
+            new SceneChanger(CONNECTION).start(getThisStage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -39,7 +39,7 @@ public class AuthorizationController extends AbstractAuthorizationController {
                     AuthenticateModel.getInstance().setRefreshToken(
                                 resultObject.get("refreshToken").toString());
                     setInfoTextLabelText(AuthorizationSuccessResponses.AUTHORIZATION_COMPLETE.toString());
-                    UserController.statusUser = true;
+                    AuthenticateModel.getInstance().setAuthorized(true);
                 }
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());

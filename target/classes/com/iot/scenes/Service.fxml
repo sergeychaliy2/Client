@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iot.controllers.identities.ServiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iot.controllers.management.ServiceController">
    <children>
       <VBox prefHeight="720.0" prefWidth="1280.0">
          <children>
             <HBox prefHeight="91.0" prefWidth="1280.0" style="-fx-background-color: #D9D9D9; -fx-border-color: #2E2D2D;">
                <children>
-                  <Button fx:id="homeMenuBtn" mnemonicParsing="false" onMouseClicked="#homeScene" prefHeight="39.0" prefWidth="126.0" style="-fx-background-color: #D9D9D9;" text="Главная">
+                  <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#addNewBoard" prefHeight="39.0" prefWidth="317.0" style="-fx-background-color: #D9D9D9;" text="Добавить устройство" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -20,79 +25,37 @@
                         <Insets top="25.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="inputMenuBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#authorizationScene" prefHeight="39.0" prefWidth="131.0" style="-fx-background-color: #D9D9D9;" text="Вход" textAlignment="CENTER">
+                  <Label alignment="CENTER" prefHeight="89.0" prefWidth="410.0" text="Управление">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font size="40.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="25.0" />
+                        <Insets left="120.0" />
                      </HBox.margin>
-                  </Button>
+                  </Label>
                </children>
             </HBox>
-            <HBox prefHeight="608.0" prefWidth="1280.0">
+            <HBox prefHeight="636.0" prefWidth="1280.0">
                <children>
-                  <VBox prefHeight="604.0" prefWidth="432.0">
+                  <StackPane prefHeight="633.0" prefWidth="1497.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="89.0" prefWidth="410.0" text="Управление">
-                           <font>
-                              <Font size="40.0" />
-                           </font>
-                        </Label>
-                        <HBox prefHeight="37.0" prefWidth="432.0" />
-                        <HBox layoutX="10.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="432.0">
-                           <VBox.margin>
-                              <Insets top="25.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <ImageView fx:id="loadingCircle" fitHeight="45.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" translateY="230.0" visible="false">
-                           <VBox.margin>
-                              <Insets left="190.0" top="10.0" />
-                           </VBox.margin>
-                           <image>
-                              <Image url="@../../../loading.gif" />
-                           </image>
-                        </ImageView>
-                        <Button fx:id="openBtn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#openDeviceMode" prefHeight="38.0" prefWidth="215.0" text="Открыть" translateX="95.0" translateY="-80.0">
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </Button>
-                        <Text fx:id="infoTextLabel" stroke="#252525" strokeMiterLimit="20.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" translateY="100.0" wrappingWidth="287.13671875">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="70.0" top="20.0" />
-                           </VBox.margin>
-                        </Text>
-                        <Button fx:id="closeBtn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#closeDeviceMode" prefHeight="38.0" prefWidth="215.0" text="Закрыть" translateX="95.0" translateY="-100.0">
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="autoBtn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#autoDeviceMode" prefHeight="38.0" prefWidth="215.0" text="Автоматический режим" translateX="95.0" translateY="-85.0">
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </Button>
-                        <TextField fx:id="hollTField" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="0" prefHeight="38.0" prefWidth="215.0" promptText="Датчик Хола" style="-fx-border-color: #2E2D2D; -fx-background-color: #E8E8E8; -fx-background-radius: 5; -fx-border-radius: 5;" translateX="95.0" translateY="-65.0">
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </TextField>
-                        <Button fx:id="changeHollBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#changeStatusHoll" prefHeight="39.0" prefWidth="75.0" style="-fx-background-color: #B2AFAF; -fx-border-color: #2E2D2D; -fx-border-radius: 5; -fx-background-radius: 5;" text="Изменить" translateX="237.0" translateY="-105.0">
-                           <font>
-                              <Font name="System Bold" size="10.0" />
-                           </font>
-                        </Button>
+                        <Pane fx:id="connectionDeviceWindow" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <VBox fx:id="connectionDeviceBox" layoutX="456.0" onMouseExited="#disableMouseEvent" prefHeight="379.0" prefWidth="368.0" style="-fx-background-color: E0E0E0;">
+                                 <children>
+                                    <Rectangle fx:id="connectionRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="367.0" />
+                                    <Rectangle fx:id="eventRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="9.0" onMousePressed="#enableMouseEvent" stroke="BLACK" strokeType="INSIDE" width="200.0">
+                                       <VBox.margin>
+                                          <Insets left="80.0" />
+                                       </VBox.margin>
+                                    </Rectangle>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </Pane>
                      </children>
-                     <HBox.margin>
-                        <Insets left="425.0" />
-                     </HBox.margin>
-                  </VBox>
-               </children>
-            </HBox>
+                  </StackPane>
+               </children></HBox>
          </children>
       </VBox>
    </children>
