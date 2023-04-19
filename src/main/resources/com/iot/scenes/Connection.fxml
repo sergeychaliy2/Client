@@ -27,7 +27,15 @@
                         <Insets top="25.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="inputMenuBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#authorizationScene" prefHeight="39.0" prefWidth="131.0" style="-fx-background-color: #D9D9D9;" text="Вход" textAlignment="CENTER">
+                  <Button fx:id="inputMenuBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#authorizationScene" prefHeight="39.0" prefWidth="119.0" style="-fx-background-color: #D9D9D9;" text="Вход" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="serviceMenuBtn" alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#serviceUser" prefHeight="39.0" prefWidth="132.0" style="-fx-background-color: #D9D9D9;" text="Управление" translateX="15.0">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

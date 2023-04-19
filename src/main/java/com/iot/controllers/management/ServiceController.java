@@ -1,20 +1,34 @@
 package com.iot.controllers.management;
 
 import com.iot.controllers.UserController;
+import com.iot.controllers.identities.AbstractAuthorizationController;
+import com.iot.controllers.identities.AuthorizationController;
+import com.iot.model.AuthenticateModel;
+import com.iot.model.UserProfileModel;
+import com.iot.scenes.SceneChanger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
-public class ServiceController {
+import static com.iot.scenes.ScenesNames.MAIN;
 
+public class ServiceController{
+    @FXML private Button addDevice;
+    @FXML private ComboBox userComboBox;
     @FXML private Pane connectionDeviceWindow;
     @FXML private VBox connectionDeviceBox;
     @FXML private Rectangle eventRect;
     @FXML private Rectangle connectionRect;
 
+    private final String str="Выход";
     private double startEventRectY;
     private double startConnectionRectY;
 
@@ -22,6 +36,31 @@ public class ServiceController {
     protected void initialize() {
         this.startEventRectY = eventRect.getY();
         this.startConnectionRectY = connectionRect.getY();
+        ObservableList<String> list= FXCollections.observableArrayList(str);
+        userComboBox.setItems(list);
+        userComboBox.setPromptText(UserProfileModel.getInstance().getUserInstance());
+    }
+    private Stage getThisStage() {
+        return (Stage) addDevice.getScene().getWindow();
+    }
+    @FXML
+    protected void homeScene() {
+        try {
+            new SceneChanger(MAIN).start(getThisStage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    protected void selectComboBox(){
+        String st=userComboBox.getSelectionModel().getSelectedItem().toString();
+        if(st.equals(str)){
+            userComboBox.getItems().clear();
+            homeScene();
+            AuthenticateModel.getInstance().setAuthorized(false);
+        }else{
+            System.out.println("Ошибка");
+        }
     }
 
     @FXML

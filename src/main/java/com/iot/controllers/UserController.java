@@ -22,6 +22,14 @@ public class UserController implements Initializable {
         return (Stage) contactMenuBtn.getScene().getWindow();
     }
     @FXML
+    protected void homeScene() {
+        try {
+            new SceneChanger(MAIN).start(getThisStage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
     protected void homeForAuthorized() throws Exception {
         new SceneChanger(MAIN_AUTHORIZATION).start(getThisStage());
     }
