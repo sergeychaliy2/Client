@@ -45,14 +45,14 @@
                                         <Insets top="25.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button disable="true" mnemonicParsing="false" opacity="0.0" prefHeight="39.0" prefWidth="175.0" style="-fx-background-color: #560262;" text="CONTACT US" textFill="WHITE">
-                                    <font>
-                                        <Font name="Montserrat Black" size="18.0" />
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets top="25.0" />
-                                    </HBox.margin>
-                                </Button>
+                        <Label alignment="CENTER" prefHeight="89.0" prefWidth="410.0" text="Вход">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="45.0" />
+                           </HBox.margin>
+                        </Label>
                             </children>
                         </HBox>
                     </children>
@@ -69,11 +69,6 @@
                                 <Font size="17.0" />
                             </font>
                         </PasswordField>
-                        <Label alignment="CENTER" layoutX="466.0" layoutY="14.0" prefHeight="73.0" prefWidth="356.0" text="Вход">
-                            <font>
-                                <Font size="40.0" />
-                            </font>
-                        </Label>
                         <Button fx:id="input" layoutX="557.0" layoutY="382.0" mnemonicParsing="false" onMouseClicked="#userAuthorization" prefHeight="49.0" prefWidth="173.0" style="-fx-background-color: #B2AFAF; -fx-border-radius: 5; -fx-background-radius: 5;" text="Войти">
                             <font>
                                 <Font name="System Bold" size="18.0" />
