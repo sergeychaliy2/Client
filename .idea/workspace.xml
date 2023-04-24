@@ -5,22 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b03da61a-a1d2-45c0-9401-bb6ad2b196e1" name="Changes" comment="&#10;added control to registration, combobox">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/responses/ServiceErrors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/Configuration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/CustomWebSocketHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/WebSocketThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/responses/ConnectionErrors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/responses/SocketResponses.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/AbstractAuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/AbstractAuthorizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IoT.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/AuthorizationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/management/ServiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/management/ServiceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/AuthenticateModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/AuthenticateModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/Endpoints.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/Endpoints.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/HttpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/HttpClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/responses/AuthorizationSuccessResponses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/responses/AuthorizationSuccessResponses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/UserProfileModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/UserProfileModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Service.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Service.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/AbstractAuthorizationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/AbstractAuthorizationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/management/ServiceController$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/management/ServiceController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/AuthorizationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/AuthorizationController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/management/ServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/management/ServiceController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/Endpoints.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/Endpoints.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/HttpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/HttpClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/HttpClientRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/HttpClientRunner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/AuthenticateModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/AuthenticateModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/UserProfileModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/UserProfileModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/responses/AuthorizationSuccessResponses.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/responses/AuthorizationSuccessResponses.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/Service.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/Service.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/temp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/temp.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -124,6 +132,7 @@
       <updated>1681469824364</updated>
       <workItem from="1681751802860" duration="3955000" />
       <workItem from="1681924009437" duration="7429000" />
+      <workItem from="1682344508077" duration="8526000" />
     </task>
     <task id="LOCAL-00001" summary="&#10;added control to registration, combobox">
       <created>1681936929781</created>

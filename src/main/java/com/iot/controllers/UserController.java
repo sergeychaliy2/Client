@@ -16,7 +16,7 @@ import static com.iot.scenes.ScenesNames.*;
 
 public class UserController implements Initializable {
     @FXML private Button contactMenuBtn;
-    @FXML private ComboBox userComboBox;
+    @FXML private ComboBox<String> userComboBox;
     private final String str="Выход";
     private Stage getThisStage() {
         return (Stage) contactMenuBtn.getScene().getWindow();
@@ -40,7 +40,7 @@ public class UserController implements Initializable {
     }
     @FXML
     protected void selectComboBox() throws Exception {
-        String st=userComboBox.getSelectionModel().getSelectedItem().toString();
+        String st=userComboBox.getSelectionModel().getSelectedItem();
         if(st.equals(str)){
             userComboBox.getItems().clear();
             new SceneChanger(MAIN).start(getThisStage());
@@ -51,7 +51,7 @@ public class UserController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         ObservableList<String>list= FXCollections.observableArrayList(str);
         userComboBox.setItems(list);
-        userComboBox.setPromptText(UserProfileModel.getInstance().getUserInstance());
+        userComboBox.setPromptText(UserProfileModel.getInstance().getUserLogin());
     }
 
 }

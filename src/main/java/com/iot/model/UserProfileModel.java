@@ -3,16 +3,16 @@ package com.iot.model;
 public class UserProfileModel {
 
     private final static UserProfileModel instance = new UserProfileModel();
-    private String userInstance;
+    private String userLogin;
 
     public static UserProfileModel getInstance() {
         return instance;
     }
-    public String getUserInstance() {
-        return userInstance;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setUserInstance(String userInstance) {
-        this.userInstance = userInstance;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 }

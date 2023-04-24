@@ -16,6 +16,9 @@ public enum Endpoints {
     RESET_PASSWORD{
         @Override public String toString(){return "/account/change/password";}
     },
+    APP_CONNECTION{
+        @Override public String toString() { return "/connection/app"; }
+    },
     UPDATE_TOKEN {
         @Override public String toString() { return "/token/update"; }
     }

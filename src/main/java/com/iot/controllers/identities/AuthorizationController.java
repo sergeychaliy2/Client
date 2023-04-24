@@ -34,6 +34,8 @@ public class AuthorizationController extends AbstractAuthorizationController {
             switch (response.responseCode()) {
                 case HttpStatus.SC_ACCEPTED ->  {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
+                    UserProfileModel.getInstance().setUserLogin(emailText.getText());
+
                         AuthenticateModel.getInstance().setAccessToken(
                                 resultObject.get("accessToken").toString());
                     AuthenticateModel.getInstance().setRefreshToken(
@@ -66,7 +68,6 @@ public class AuthorizationController extends AbstractAuthorizationController {
         Matcher matcherPassword = patternPassword.matcher(passwordText.getText());
         Matcher matcherLogin = patternLogin.matcher(emailText.getText());
         if ((matcherPassword.matches()) && (matcherLogin.matches())) {
-            UserProfileModel.getInstance().setUserInstance(emailText.getText());
             JSONObject obj = new JSONObject();
             obj.put("email", emailText.getText());
             obj.put("password", passwordText.getText());
