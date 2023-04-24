@@ -4,13 +4,17 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iot.controllers.management.ServiceController">
    <children>
@@ -18,7 +22,7 @@
          <children>
             <HBox prefHeight="91.0" prefWidth="1280.0" style="-fx-background-color: #D9D9D9; -fx-border-color: #2E2D2D;">
                <children>
-                  <Button fx:id="addDevice" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#addNewBoard" prefHeight="39.0" prefWidth="317.0" style="-fx-background-color: #D9D9D9;" text="Добавить устройство" textAlignment="CENTER">
+                  <Button fx:id="findDevice" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#findDevice" prefHeight="39.0" prefWidth="317.0" style="-fx-background-color: #D9D9D9;" text="Найти устройство" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -43,16 +47,23 @@
                      <children>
                         <Pane fx:id="connectionDeviceWindow" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <VBox fx:id="connectionDeviceBox" layoutX="456.0" onMouseExited="#disableMouseEvent" prefHeight="379.0" prefWidth="368.0" style="-fx-background-color: E0E0E0;">
+                              <ListView fx:id="paneDevice" layoutX="531.0" layoutY="104.0" prefHeight="200.0" prefWidth="200.0" />
+                              <ImageView fx:id="loadingCircle" fitHeight="45.0" fitWidth="45.0" layoutX="621.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../../../loading.gif" />
+                                 </image>
+                              </ImageView>
+                              <Text fx:id="infoTextLabel" layoutX="477.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="333.13671875">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Pane disable="true" layoutX="351.0" layoutY="47.0" prefHeight="354.0" prefWidth="541.0" visible="false">
                                  <children>
-                                    <Rectangle fx:id="connectionRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="367.0" />
-                                    <Rectangle fx:id="eventRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="9.0" onMousePressed="#enableMouseEvent" stroke="BLACK" strokeType="INSIDE" width="200.0">
-                                       <VBox.margin>
-                                          <Insets left="80.0" />
-                                       </VBox.margin>
-                                    </Rectangle>
-                                 </children>
-                              </VBox>
+                                    <TextField fx:id="sensorText" alignment="TOP_CENTER" layoutX="208.0" layoutY="99.0" promptText="Сенсор" />
+                                    <TextField fx:id="stateText" alignment="TOP_CENTER" layoutX="207.0" layoutY="152.0" promptText="Состояние" />
+                                    <Button contentDisplay="CENTER" layoutX="247.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#stateChange" text="Изменить" />
+                                 </children></Pane>
                            </children>
                         </Pane>
                      </children>

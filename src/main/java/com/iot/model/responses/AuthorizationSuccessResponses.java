@@ -53,5 +53,15 @@ public enum AuthorizationSuccessResponses {
         @Override public String toString() {
             return "data was successfully changed";
         }
+    },
+    STATE_CHANGE {
+        @Override public String toString() {
+            return "device state has been updated";
+        }
+    },
+    RESET_STATUS {
+        @Override public String toString() {
+            return "Device listening state was reset";
+        }
     }
 }

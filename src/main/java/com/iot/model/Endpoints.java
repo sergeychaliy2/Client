@@ -19,5 +19,18 @@ public enum Endpoints {
     UPDATE_TOKEN {
         @Override public String toString() { return "/token/update"; }
     }
+    ,
+    RECEIVING_DEVICES {
+        @Override public String toString() { return "/management/user/devices"; }
+    },
+    OBTAINING_DEVICE_INFORMATION {
+        @Override public String toString() { return "/management/user/devices/{id}"; }
+    },
+    STATE_CHANGE {
+        @Override public String toString() { return "/management/user/devices/{id}/change"; }
+    },
+    RESET_STATUS {
+        @Override public String toString() { return "/management/user/devices/{id}/reset"; }
+    }
 
 }

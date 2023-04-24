@@ -16,6 +16,7 @@ import static com.iot.scenes.ScenesNames.*;
 
 public class AbstractAuthorizationController {
     private ImageView loadingCircle;
+    @FXML
     private Text infoTextLabel;
 
     protected final Pattern patternLogin = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
@@ -27,7 +28,7 @@ public class AbstractAuthorizationController {
         throw new RuntimeException("Must be override");
     }
 
-    protected void checkServerResponseIs() {
+    public void checkServerResponseIs() {
         new Thread(() -> {
             while(true) {
                 ServerResponse response = AuthenticateModel.getInstance().getResponse();

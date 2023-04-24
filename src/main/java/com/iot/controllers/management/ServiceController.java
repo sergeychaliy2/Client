@@ -1,10 +1,9 @@
 package com.iot.controllers.management;
-
-import com.iot.controllers.UserController;
 import com.iot.controllers.identities.AbstractAuthorizationController;
-import com.iot.controllers.identities.AuthorizationController;
-import com.iot.model.AuthenticateModel;
-import com.iot.model.UserProfileModel;
+import com.iot.model.*;
+import com.iot.model.responses.AuthorizationErrors;
+import com.iot.model.responses.AuthorizationSuccessResponses;
+import com.iot.model.responses.ServiceErrors;
 import com.iot.scenes.SceneChanger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,37 +11,42 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.apache.http.HttpStatus;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.util.regex.Matcher;
 
 import static com.iot.scenes.ScenesNames.MAIN;
 
-public class ServiceController{
-    @FXML private Button addDevice;
-    @FXML private ComboBox userComboBox;
-    @FXML private Pane connectionDeviceWindow;
-    @FXML private VBox connectionDeviceBox;
-    @FXML private Rectangle eventRect;
-    @FXML private Rectangle connectionRect;
-
-    private final String str="Выход";
-    private double startEventRectY;
-    private double startConnectionRectY;
+public class ServiceController extends AbstractAuthorizationController {
+    @FXML
+    private Button findDevice;
+    @FXML
+    private ComboBox userComboBox;
+    @FXML private ImageView loadingCircle;
+    @FXML private TextField sensorText;
+    @FXML private TextField stateText;
+    @FXML
+    private ListView<JSONObject> paneDevice;
+    private final String str = "Выход";
 
     @FXML
     protected void initialize() {
-        this.startEventRectY = eventRect.getY();
-        this.startConnectionRectY = connectionRect.getY();
-        ObservableList<String> list= FXCollections.observableArrayList(str);
+        ObservableList<String> list = FXCollections.observableArrayList(str);
         userComboBox.setItems(list);
         userComboBox.setPromptText(UserProfileModel.getInstance().getUserInstance());
     }
-    private Stage getThisStage() {
-        return (Stage) addDevice.getScene().getWindow();
+
+    public Stage getThisStage() {
+        return (Stage) findDevice.getScene().getWindow();
     }
+
     @FXML
     protected void homeScene() {
         try {
@@ -51,75 +55,87 @@ public class ServiceController{
             throw new RuntimeException(e);
         }
     }
+
     @FXML
-    protected void selectComboBox(){
-        String st=userComboBox.getSelectionModel().getSelectedItem().toString();
-        if(st.equals(str)){
+    protected void selectComboBox() {
+        String st = userComboBox.getSelectionModel().getSelectedItem().toString();
+        if (st.equals(str)) {
             userComboBox.getItems().clear();
             homeScene();
             AuthenticateModel.getInstance().setAuthorized(false);
-        }else{
+        } else {
             System.out.println("Ошибка");
         }
     }
 
     @FXML
-    protected void enableMouseEvent() {
-        connectionDeviceBox.setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                eventRect.setTranslateY(mouseEvent.getY() / 15);
-                connectionRect.setHeight(mouseEvent.getY() - eventRect.getHeight());
-                //connectionRect.setTranslateY(mouseEvent.getSceneY() - eventRect.getHeight());
-            }
-        });
-        connectionDeviceBox.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                disableMouseEvent();
-            }
-        });
+    protected void findDevice() {
+        try {
+            AbstractAuthorizationController abstractAuthorizationController = new AbstractAuthorizationController();
+            JSONObject obj = new JSONObject();
+            String endPoint = Endpoints.RECEIVING_DEVICES.toString();
+//        loadingCircle.setVisible(true);
+            HttpClient.getInstance().get(obj, endPoint);
+            abstractAuthorizationController.checkServerResponseIs();
+            paneDevice.getItems().addAll(obj);
+        }catch (Exception e){
+            setInfoTextLabelText("ошибка");
+        }
     }
     @FXML
-    protected void disableMouseEvent() {
-        connectionDeviceBox.setOnMouseMoved(null);
-
-        eventRect.setTranslateY(startEventRectY);
-        connectionRect.setHeight(startConnectionRectY);
-
+    protected void stateChange() {
+        clearErrorLabel();
+        if ((sensorText.getText()!=null && stateText.getText()!=null)) {
+            JSONObject obj = new JSONObject();
+            obj.put("sensor", sensorText.getText());
+            obj.put("state ", stateText.getText());
+            String endPoint = Endpoints.REGISTRATION.toString();
+//            AuthorizationModel.getInstance().setRequest(
+//                    new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
+//            );
+            HttpClient.getInstance().post(obj, endPoint);
+            checkServerResponseIs();
+        } else {
+            setInfoTextLabelText(ServiceErrors.NO_STATE_DEVICE.toString());
+        }
     }
 
+    @Override
+    protected void transactServerResponse(ServerResponse response) {
+        try {
+            JSONParser parser = new JSONParser();
 
-
-    @FXML
-    protected void addNewBoard() {
-//    @FXML protected void test() throws InterruptedException {
-//        ScaleTransition trans = new ScaleTransition(Duration.seconds(2), circle);
-//        trans.setFromX(1.0);
-//        trans.setToX(0.40);
-//        trans.setFromY(1.0);
-//        trans.setToY(0.20);
-//// Let the animation run forever
-//        trans.setCycleCount(ScaleTransition.INDEFINITE);
-//// Reverse direction on alternating cycles
-//        trans.setAutoReverse(true);
-//// Play the Animation
-//        trans.play();
-//        TranslateTransition trans = new TranslateTransition(Duration.seconds(12), test2);
-//        trans.setFromX(test2.getWidth());
-//        trans.setToX(-1.0 * test2.getLayoutBounds().getWidth());
-//        // Let the animation run forever
-//        trans.setCycleCount(TranslateTransition.INDEFINITE);
-//        // Reverse direction on alternating cycles
-//        trans.setAutoReverse(true);
-//        // Play the Animation
-//        trans.play();
-//
-//    }
-
-        connectionRect.setHeight(100);
-        eventRect.setY(103);
-
+            switch (response.responseCode()) {
+                case HttpStatus.SC_ACCEPTED ->  {
+                    JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
+                    if (resultObject.get("msg")!= null) {
+                        String responseMessage = resultObject.get("msg").toString();
+                        if (responseMessage.equals(AuthorizationSuccessResponses.STATE_CHANGE.toString())) {
+                            setInfoTextLabelText(AuthorizationSuccessResponses.STATE_CHANGE.toString());
+                        }
+                        else {
+                            setInfoTextLabelText(AuthorizationSuccessResponses.RESET_STATUS.toString());
+                        }
+                    }
+                }
+                case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
+                    JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
+                    String message = switch (resultObject.get("code").toString()) {
+                        case "ET01"  -> ServiceErrors.TOKEN_IS_ENDED.toString();
+                        case "ET02"  -> ServiceErrors.NO_USER_ID.toString();
+                        case "EE01"  -> ServiceErrors.NO_DEVICE.toString();
+                        case "EE04"  -> ServiceErrors.NO_USER_DEVICE.toString();
+                        case "EE06"  -> ServiceErrors.NO_STATE_DEVICE.toString();
+                        case "OE01"  -> ServiceErrors.NO_LISTEN_SOCKET.toString();
+                        case "OE02"  -> ServiceErrors.NO_STANDART.toString();
+                        default      -> null;
+                    };
+//                    if (message == null && resultObject.get("code").toString().equals("ET01")) {
+//                        AuthorizationModel.getInstance().updateToken();
+//                    }
+                    setInfoTextLabelText(message);
+                }
+            }
+        } catch (ParseException e) { setInfoTextLabelText(e.getMessage()); }
     }
-
 }

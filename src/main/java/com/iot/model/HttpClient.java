@@ -40,7 +40,7 @@ public class HttpClient {
             throw new RuntimeException(e);
         }
     }
-    public void get(String endPoint) {
+    public void get(JSONObject obj, String endPoint) {
         try {
             final String patch = "http://151.248.116.208:8000" + endPoint;
             HttpGet get = new HttpGet(patch);
