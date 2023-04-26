@@ -1,9 +1,8 @@
 package com.iot.controllers.identities;
 
-import com.iot.controllers.UserController;
 import com.iot.model.AuthenticateModel;
 import com.iot.model.ServerResponse;
-import com.iot.model.responses.AuthorizationErrors;
+import com.iot.model.consts.CommonErrors;
 import com.iot.scenes.SceneChanger;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -67,12 +66,12 @@ public class AbstractAuthorizationController {
     protected void serviceUser() {
         if (AuthenticateModel.getInstance().isAuthorized()){
             try {
-                new SceneChanger(AUTHORIZATION_MAIN_SERVICE).start(getThisStage());
+                new SceneChanger(SERVICE).start(getThisStage());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         } else {
-            setInfoTextLabelText(AuthorizationErrors.NOT_AUTHORIZED.toString());
+            setInfoTextLabelText(CommonErrors.Authorization.NOT_AUTHORIZED);
         }
     }
     @FXML

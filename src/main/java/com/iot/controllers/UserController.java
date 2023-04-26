@@ -31,12 +31,12 @@ public class UserController implements Initializable {
     }
     @FXML
     protected void homeForAuthorized() throws Exception {
-        new SceneChanger(MAIN_AUTHORIZATION).start(getThisStage());
+        new SceneChanger(MAIN).start(getThisStage());
     }
     @FXML
     protected void serviceForAuthorized() throws Exception
     {
-        new SceneChanger(MAIN_SERVICE).start(getThisStage());
+        new SceneChanger(SERVICE).start(getThisStage());
     }
     @FXML
     protected void selectComboBox() throws Exception {

@@ -1,8 +1,6 @@
 package com.iot.controllers.identities;
-import com.iot.controllers.UserController;
 import com.iot.model.*;
-import com.iot.model.responses.AuthorizationErrors;
-import com.iot.model.responses.AuthorizationSuccessResponses;
+import com.iot.model.consts.CommonErrors;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -43,20 +41,20 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 case HttpStatus.SC_ACCEPTED -> {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
                     String responseMessage = resultObject.get("msg").toString();
-                    if (responseMessage.equals(AuthorizationSuccessResponses.VERIFICATION_CODE_SENT.toString())) {
+                    if (responseMessage.equals(CommonErrors.AuthorizationSuccessResponses.VERIFICATION_CODE_SENT)) {
                         emailResetPassword.setDisable(true);
                         emailResetPassword.setOpacity(0.5);
-                        setInfoTextLabelText(AuthorizationSuccessResponses.RESET_CODE_WAS_SENT.toString());
+                        setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.RESET_CODE_WAS_SENT);
                         passwordResetConfirmation.setVisible(true);
                         passwordResetConfirmation.setOpacity(1.0);
                         passwordResetConfirmation.setDisable(false);//активна
-                    } else if (responseMessage.equals(AuthorizationSuccessResponses.DATA_CHANGED.toString())) {
-                        setInfoTextLabelText(AuthorizationSuccessResponses.PASSWORD_RESET.toString());
+                    } else if (responseMessage.equals(CommonErrors.AuthorizationSuccessResponses.DATA_CHANGED)) {
+                        setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.PASSWORD_RESET);
 
                     } else {
                         codeResetPassword.setDisable(true);
                         codeResetPassword.setOpacity(0.5);
-                        setInfoTextLabelText(AuthorizationSuccessResponses.RESET_CODE_IS_RIGHT.toString());
+                        setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.RESET_CODE_IS_RIGHT);
                         newPasswordTextField.setVisible(true);
                         newPasswordTextField.setOpacity(1.0);
                         newPasswordTextField.setEditable(true);
@@ -67,8 +65,8 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
                     String message = switch (resultObject.get("code").toString()) {
-                        case "EE03" -> AuthorizationErrors.NO_USER.toString();
-                        case "EA04" -> AuthorizationErrors.CLIENT_IS_NOT_AUTHENTICATED.toString();
+                        case "EE03" -> CommonErrors.Authorization.NO_USER;
+                        case "EA04" -> CommonErrors.Authorization.CLIENT_IS_NOT_AUTHENTICATED;
                         default -> "Неверные данные пользователя";
                     };
 
@@ -96,7 +94,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
 
-                String endPoint = Endpoints.SEND_CODE.toString();
+                String endPoint = CommonErrors.Endpoints.SEND_CODE;
 //                AuthorizationModel.getInstance().setRequest(
 //                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                );
@@ -105,7 +103,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
             }else {
-                setInfoTextLabelText(AuthorizationErrors.EMAIL_MESSAGE_FAILED.toString());
+                setInfoTextLabelText(CommonErrors.Authorization.EMAIL_MESSAGE_FAILED);
             }
         }catch (Exception ex){
             ex.printStackTrace();
@@ -120,7 +118,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
                 obj.put("code", codeResetPassword.getText());
-                String endPoint = Endpoints.CONFIRM_CODE.toString();
+                String endPoint = CommonErrors.Endpoints.CONFIRM_CODE;
 //                AuthorizationModel.getInstance().setRequest(
 //                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                );
@@ -129,7 +127,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
             } else {
-                setInfoTextLabelText(AuthorizationErrors.VERIFICATION_CODE_IS_NOT_VALID.toString());
+                setInfoTextLabelText(CommonErrors.Authorization.VERIFICATION_CODE_IS_NOT_VALID);
             }
         }catch (Exception ex){
             ex.printStackTrace();
@@ -144,7 +142,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
                 obj.put("password", newPasswordTextField.getText());
-                String endPoint = Endpoints.RESET_PASSWORD.toString();
+                String endPoint = CommonErrors.Endpoints.RESET_PASSWORD;
 //                AuthorizationModel.getInstance().setRequest(
 //                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                );
@@ -152,7 +150,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
             } else {
-                setInfoTextLabelText(AuthorizationErrors.PASSWORD_FORMAT_IS_INCORRECT.toString());
+                setInfoTextLabelText(CommonErrors.Authorization.PASSWORD_FORMAT_IS_INCORRECT);
             }
         }catch (Exception ex){
             ex.printStackTrace();

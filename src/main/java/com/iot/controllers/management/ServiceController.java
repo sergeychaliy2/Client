@@ -1,5 +1,6 @@
 package com.iot.controllers.management;
 import com.iot.model.*;
+import com.iot.model.consts.CommonErrors;
 import com.iot.scenes.SceneChanger;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -79,7 +80,7 @@ public class ServiceController {
 
             new WebSocketThread (
                     new CustomWebSocketHandler (
-                            new URI(String.format("%s%s%d%s",configuration.getWsConnectionType(), configuration.getHost(), configuration.getPort(), Endpoints.APP_CONNECTION)),
+                            new URI(String.format("%s%s%d%s",configuration.getWsConnectionType(), configuration.getHost(), configuration.getPort(), CommonErrors.Endpoints.APP_CONNECTION)),
                             headers,
                             userUUID,
                             infoTextLabel

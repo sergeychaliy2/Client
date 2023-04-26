@@ -1,7 +1,6 @@
 package com.iot.controllers.identities;
 import com.iot.model.*;
-import com.iot.model.responses.AuthorizationErrors;
-import com.iot.model.responses.AuthorizationSuccessResponses;
+import com.iot.model.consts.CommonErrors;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -45,24 +44,24 @@ public class RegistrationController extends AbstractAuthorizationController{
                         AuthenticateModel.getInstance().setRefreshToken(
                                 resultObject.get("refreshToken").toString()
                         );
-                        setInfoTextLabelText(AuthorizationSuccessResponses.SUCCESSFULLY_REGISTRATION.toString());
+                        setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.SUCCESSFULLY_REGISTRATION);
 //                        Platform.runLater(this::homeScene);
                     } else {
                         String responseMessage = resultObject.get("msg").toString();
 
-                        if (responseMessage.equals(AuthorizationSuccessResponses.VERIFICATION_CODE_SENT.toString())) {
+                        if (responseMessage.equals(CommonErrors.AuthorizationSuccessResponses.VERIFICATION_CODE_SENT)) {
                             userEmailTField.setDisable(true);
                             changeEmailBtn.setVisible(true);
                             changeEmailBtn.setDisable(false);
                             verifyCodeTField.setEditable(true);
-                            setInfoTextLabelText(AuthorizationSuccessResponses.VERIFICATION_CODE_WAS_SENT.toString());
+                            setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.VERIFICATION_CODE_WAS_SENT);
                         }
                         else {
                             verifyCodeTField.setDisable(true);
                             verifyCodeActionBtn.setDisable(true);
                             userPasswordTField.setDisable(false);
                             userPasswordTField.setEditable(true);
-                            setInfoTextLabelText(AuthorizationSuccessResponses.VERIFICATION_CODE_IS_RIGHT.toString());
+                            setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.VERIFICATION_CODE_IS_RIGHT);
                         }
                     }
 
@@ -71,12 +70,12 @@ public class RegistrationController extends AbstractAuthorizationController{
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
 
                     String message = switch (resultObject.get("code").toString()) {
-                        case "EMD01" -> AuthorizationErrors.EMAIL_MESSAGE_ALREADY_SENT.toString();
-                        case "EMD02" -> AuthorizationErrors.EMAIL_MESSAGE_FAILED.toString();
-                        case "EA01"  -> AuthorizationErrors.VERIFICATION_CODE_IS_NOT_VALID.toString();
-                        case "EA02"  -> AuthorizationErrors.CONNECTION_TIME_WAS_EXPIRED.toString();
-                        case "EA03"  -> AuthorizationErrors.USER_ALREADY_EXISTS.toString();
-                        case "EA04"  -> AuthorizationErrors.CLIENT_IS_NOT_AUTHENTICATED.toString();
+                        case "EMD01" -> CommonErrors.Authorization.EMAIL_MESSAGE_ALREADY_SENT;
+                        case "EMD02" -> CommonErrors.Authorization.EMAIL_MESSAGE_FAILED;
+                        case "EA01"  -> CommonErrors.Authorization.VERIFICATION_CODE_IS_NOT_VALID;
+                        case "EA02"  -> CommonErrors.Authorization.CONNECTION_TIME_WAS_EXPIRED;
+                        case "EA03"  -> CommonErrors.Authorization.USER_ALREADY_EXISTS;
+                        case "EA04"  -> CommonErrors.Authorization.CLIENT_IS_NOT_AUTHENTICATED;
                         default      -> null;
                     };
 
@@ -115,7 +114,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                 if (matcherLogin.matches()) {
                     JSONObject obj = new JSONObject();
                     obj.put("email", userEmailTField.getText());
-                    String endPoint = Endpoints.SEND_CODE.toString();
+                    String endPoint = CommonErrors.Endpoints.SEND_CODE;
 //                    AuthorizationModel.getInstance().setRequest(
 //                            new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                    );
@@ -123,7 +122,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                     HttpClient.getInstance().post(obj, endPoint);
                     checkServerResponseIs();
                 } else {
-                    setInfoTextLabelText(AuthorizationErrors.EMAIL_FORMAT_IS_NOT_VALID.toString());
+                    setInfoTextLabelText(CommonErrors.Authorization.EMAIL_FORMAT_IS_NOT_VALID);
                 }
             }
             case "Подтвердить" -> {
@@ -132,7 +131,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                     JSONObject obj = new JSONObject();
                     obj.put("email", userEmailTField.getText());
                     obj.put("code", Integer.parseInt(verifyCodeTField.getText()));
-                    String endPoint = Endpoints.CONFIRM_CODE.toString();
+                    String endPoint = CommonErrors.Endpoints.CONFIRM_CODE;
 //                    AuthorizationModel.getInstance().setRequest(
 //                            new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                    );
@@ -140,7 +139,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                     HttpClient.getInstance().post(obj, endPoint);
                     checkServerResponseIs();
                 } else {
-                    setInfoTextLabelText(AuthorizationErrors.ERROR_VERIFICATION_CODE_LENGTH_OR_FORMAT_INCORRECT.toString());
+                    setInfoTextLabelText(CommonErrors.Authorization.ERROR_VERIFICATION_CODE_LENGTH_OR_FORMAT_INCORRECT);
                 }
             }
         }
@@ -159,14 +158,14 @@ public class RegistrationController extends AbstractAuthorizationController{
             JSONObject obj = new JSONObject();
             obj.put("email", userEmailTField.getText());
             obj.put("password", userPasswordTField.getText());
-            String endPoint = Endpoints.REGISTRATION.toString();
+            String endPoint = CommonErrors.Endpoints.REGISTRATION;
 //            AuthorizationModel.getInstance().setRequest(
 //                    new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //            );
             HttpClient.getInstance().post(obj, endPoint);
             checkServerResponseIs();
         } else {
-            setInfoTextLabelText(AuthorizationErrors.FORM_IS_NOT_FILLED_OR_HAS_INCORRECT_DATA.toString());
+            setInfoTextLabelText(CommonErrors.Authorization.FORM_IS_NOT_FILLED_OR_HAS_INCORRECT_DATA);
         }
     }
     @FXML protected void showPassword() {
