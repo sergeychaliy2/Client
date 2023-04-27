@@ -1,8 +1,8 @@
 package com.iot.controllers.identities;
 
-import com.iot.model.AuthenticateModel;
-import com.iot.model.ServerResponse;
-import com.iot.model.consts.CommonErrors;
+import com.iot.model.auth.AuthenticateModel;
+import com.iot.model.utils.ServerResponse;
+import com.iot.model.constants.Responses;
 import com.iot.scenes.SceneChanger;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -71,7 +71,7 @@ public class AbstractAuthorizationController {
                 throw new RuntimeException(e);
             }
         } else {
-            setInfoTextLabelText(CommonErrors.Authorization.NOT_AUTHORIZED);
+            setInfoTextLabelText(Responses.Authorization.NOT_AUTHORIZED);
         }
     }
     @FXML

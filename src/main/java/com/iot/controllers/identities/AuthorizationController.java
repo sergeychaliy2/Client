@@ -1,7 +1,11 @@
 package com.iot.controllers.identities;
 
-import com.iot.model.*;
-import com.iot.model.consts.CommonErrors;
+import com.iot.model.auth.AuthenticateModel;
+import com.iot.model.auth.UserProfileModel;
+import com.iot.model.constants.Endpoints;
+import com.iot.model.constants.Responses;
+import com.iot.model.utils.HttpClient;
+import com.iot.model.utils.ServerResponse;
 import javafx.scene.image.ImageView;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
@@ -37,15 +41,15 @@ public class AuthorizationController extends AbstractAuthorizationController {
                                 resultObject.get("accessToken").toString());
                     AuthenticateModel.getInstance().setRefreshToken(
                                 resultObject.get("refreshToken").toString());
-                    setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.AUTHORIZATION_COMPLETE);
+                    setInfoTextLabelText(Responses.Authorization.AUTHORIZATION_COMPLETE);
                     AuthenticateModel.getInstance().setAuthorized(true);
                 }
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
 
                     String message = switch (resultObject.get("code").toString()) {
-                        case "EE03"  -> CommonErrors.Authorization.NO_USER;
-                        case "EA05"  -> CommonErrors.Authorization.PASSWORD_IS_NOT_CORRECT;
+                        case "EE03"  -> Responses.Authorization.NO_USER;
+                        case "EA05"  -> Responses.Authorization.PASSWORD_IS_NOT_CORRECT;
                         default      -> null;
                     };
 
@@ -68,7 +72,7 @@ public class AuthorizationController extends AbstractAuthorizationController {
             JSONObject obj = new JSONObject();
             obj.put("email", emailText.getText());
             obj.put("password", passwordText.getText());
-            String endPoint = CommonErrors.Endpoints.AUTHORIZATION;
+            String endPoint = Endpoints.AUTHORIZATION;
 //                AuthorizationModel.getInstance().setRequest(
 //                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                );
@@ -76,7 +80,7 @@ public class AuthorizationController extends AbstractAuthorizationController {
             HttpClient.getInstance().post(obj, endPoint);
             checkServerResponseIs();
         } else {
-            setInfoTextLabelText((CommonErrors.Authorization.ERROR_AUTHORIZED));
+            setInfoTextLabelText((Responses.Authorization.ERROR_AUTHORIZED));
         }
     }
 }

@@ -1,6 +1,9 @@
 package com.iot.controllers.identities;
-import com.iot.model.*;
-import com.iot.model.consts.CommonErrors;
+import com.iot.model.auth.AuthenticateModel;
+import com.iot.model.constants.Endpoints;
+import com.iot.model.constants.Responses;
+import com.iot.model.utils.HttpClient;
+import com.iot.model.utils.ServerResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -34,39 +37,36 @@ public class PasswordResetController extends AbstractAuthorizationController {
             JSONParser parser = new JSONParser();
             switch (response.responseCode()) {
                 case HttpStatus.SC_OK -> {
-                    setInfoTextLabelText("Пароль был сброшен");
-                    AuthenticateModel.getInstance().setAuthorized(true);
-                }
-
-                case HttpStatus.SC_ACCEPTED -> {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
                     String responseMessage = resultObject.get("msg").toString();
-                    if (responseMessage.equals(CommonErrors.AuthorizationSuccessResponses.VERIFICATION_CODE_SENT)) {
+
+                    if (responseMessage.equals(Responses.Authorization.VERIFICATION_CODE_SENT)) {
                         emailResetPassword.setDisable(true);
                         emailResetPassword.setOpacity(0.5);
-                        setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.RESET_CODE_WAS_SENT);
+                        setInfoTextLabelText(Responses.Authorization.RESET_CODE_WAS_SENT);
                         passwordResetConfirmation.setVisible(true);
                         passwordResetConfirmation.setOpacity(1.0);
                         passwordResetConfirmation.setDisable(false);//активна
-                    } else if (responseMessage.equals(CommonErrors.AuthorizationSuccessResponses.DATA_CHANGED)) {
-                        setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.PASSWORD_RESET);
-
                     } else {
-                        codeResetPassword.setDisable(true);
-                        codeResetPassword.setOpacity(0.5);
-                        setInfoTextLabelText(CommonErrors.AuthorizationSuccessResponses.RESET_CODE_IS_RIGHT);
-                        newPasswordTextField.setVisible(true);
-                        newPasswordTextField.setOpacity(1.0);
-                        newPasswordTextField.setEditable(true);
-                        passwordResetConfirmation.setDisable(true);
-                        passwordResetConfirmation.setOpacity(0.5);
+                        setInfoTextLabelText(Responses.Authorization.DATA_CHANGED);
+                        AuthenticateModel.getInstance().setAuthorized(true);
                     }
+                }
+                case HttpStatus.SC_ACCEPTED -> {
+                    codeResetPassword.setDisable(true);
+                    codeResetPassword.setOpacity(0.5);
+                    setInfoTextLabelText(Responses.Authorization.RESET_CODE_IS_RIGHT);
+                    newPasswordTextField.setVisible(true);
+                    newPasswordTextField.setOpacity(1.0);
+                    newPasswordTextField.setEditable(true);
+                    passwordResetConfirmation.setDisable(true);
+                    passwordResetConfirmation.setOpacity(0.5);
                 }
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
                     String message = switch (resultObject.get("code").toString()) {
-                        case "EE03" -> CommonErrors.Authorization.NO_USER;
-                        case "EA04" -> CommonErrors.Authorization.CLIENT_IS_NOT_AUTHENTICATED;
+                        case "EE03" -> Responses.Authorization.NO_USER;
+                        case "EA04" -> Responses.Authorization.CLIENT_IS_NOT_AUTHENTICATED;
                         default -> "Неверные данные пользователя";
                     };
 
@@ -77,7 +77,9 @@ public class PasswordResetController extends AbstractAuthorizationController {
                     setInfoTextLabelText(message);
                 }
             }
-        } catch (ParseException e) {setInfoTextLabelText(e.getMessage());}
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
     @FXML
     protected void sendCodeToEmail() {
@@ -94,7 +96,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
 
-                String endPoint = CommonErrors.Endpoints.SEND_CODE;
+                String endPoint = Endpoints.SEND_CODE;
 //                AuthorizationModel.getInstance().setRequest(
 //                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                );
@@ -102,11 +104,11 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 loadingCircle.setVisible(true);
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
-            }else {
-                setInfoTextLabelText(CommonErrors.Authorization.EMAIL_MESSAGE_FAILED);
+            } else {
+                setInfoTextLabelText(Responses.Authorization.EMAIL_MESSAGE_FAILED);
             }
-        }catch (Exception ex){
-            ex.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
     @FXML
@@ -118,7 +120,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
                 obj.put("code", codeResetPassword.getText());
-                String endPoint = CommonErrors.Endpoints.CONFIRM_CODE;
+                String endPoint = Endpoints.CONFIRM_CODE;
 //                AuthorizationModel.getInstance().setRequest(
 //                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                );
@@ -127,10 +129,10 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
             } else {
-                setInfoTextLabelText(CommonErrors.Authorization.VERIFICATION_CODE_IS_NOT_VALID);
+                setInfoTextLabelText(Responses.Authorization.VERIFICATION_CODE_IS_NOT_VALID);
             }
-        }catch (Exception ex){
-            ex.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
     @FXML protected void resetAccountData(){
@@ -142,7 +144,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
                 obj.put("password", newPasswordTextField.getText());
-                String endPoint = CommonErrors.Endpoints.RESET_PASSWORD;
+                String endPoint = Endpoints.RESET_PASSWORD;
 //                AuthorizationModel.getInstance().setRequest(
 //                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
 //                );
@@ -150,10 +152,10 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();
             } else {
-                setInfoTextLabelText(CommonErrors.Authorization.PASSWORD_FORMAT_IS_INCORRECT);
+                setInfoTextLabelText(Responses.Authorization.PASSWORD_FORMAT_IS_INCORRECT);
             }
-        }catch (Exception ex){
-            ex.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

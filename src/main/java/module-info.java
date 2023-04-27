@@ -12,14 +12,18 @@ module com.iot.iot {
     exports com.iot;
     exports com.iot.controllers;
     opens com.iot.controllers to javafx.fxml;
-    exports com.iot.model.responses;
-    opens com.iot.model.responses to javafx.fxml;
     exports com.iot.scenes;
     opens com.iot.scenes to javafx.fxml;
     exports com.iot.controllers.identities;
     opens com.iot.controllers.identities to javafx.fxml;
-    exports  com.iot.controllers.management;
-    opens com.iot.controllers.management to javafx.fxml;
-    exports com.iot.model;
-    opens com.iot.model to javafx.fxml;
+    exports  com.iot.controllers.service;
+    opens com.iot.controllers.service to javafx.fxml;
+    exports com.iot.model.constants;
+    opens com.iot.model.constants to javafx.fxml;
+    exports com.iot.model.utils;
+    opens com.iot.model.utils to javafx.fxml;
+    exports com.iot.model.auth;
+    opens com.iot.model.auth to javafx.fxml;
+    exports com.iot.model.service;
+    opens com.iot.model.service to javafx.fxml;
 }
