@@ -6,15 +6,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-public class SceneChanger extends Application
+public final class SceneChanger extends Application
 {
-    private final ScenesNames name;
+    private final static SceneChanger instance = new SceneChanger();
 
-    public SceneChanger (ScenesNames name)
-    {
-        if (name == null) throw new RuntimeException("Scene name is null");
-        this.name = name;
-    }
+    private ScenesNames name;
+
+    private SceneChanger () {}
+
 
     @Override
     public void start(Stage stage) throws Exception
@@ -38,4 +37,9 @@ public class SceneChanger extends Application
         stage.show();
     }
 
+    public void setName(ScenesNames name) {
+        this.name = name;
+    }
+
+    public static SceneChanger getInstance() { return instance; }
 }

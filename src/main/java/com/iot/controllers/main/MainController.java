@@ -1,17 +1,14 @@
-package com.iot.controllers;
+package com.iot.controllers.main;
 
-import com.iot.controllers.identities.AbstractAuthorizationController;
+import com.iot.controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import static com.iot.controllers.main.MainController.ButtonsStyle.OFF;
+import static com.iot.controllers.main.MainController.ButtonsStyle.ON;
 
-import static com.iot.controllers.MainController.ButtonsStyle.OFF;
-import static com.iot.controllers.MainController.ButtonsStyle.ON;
-
-public class MainController extends AbstractAuthorizationController
-{
+public class MainController extends Controller {
     enum ButtonsStyle
     {
         ON
@@ -33,12 +30,6 @@ public class MainController extends AbstractAuthorizationController
     }
 
     @FXML private Button connectBtn;
-    @FXML private Text infoTextLabel;
-
-    @FXML
-    protected void initialize() {
-        super.setInfoTextLabel(infoTextLabel);
-    }
 
     @Override
     protected Stage getThisStage() {

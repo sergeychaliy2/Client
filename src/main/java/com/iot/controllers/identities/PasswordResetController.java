@@ -1,5 +1,5 @@
 package com.iot.controllers.identities;
-import com.iot.model.auth.AuthenticateModel;
+import com.iot.controllers.Controller;
 import com.iot.model.constants.Endpoints;
 import com.iot.model.constants.Responses;
 import com.iot.model.utils.HttpClient;
@@ -7,29 +7,19 @@ import com.iot.model.utils.ServerResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.util.regex.Matcher;
 
-public class PasswordResetController extends AbstractAuthorizationController {
+public class PasswordResetController extends Controller {
     @FXML private Button sendCodeResetPasswordBtn;
     @FXML private Button codeVerifyBtn;
     @FXML private Button passwordResetConfirmation;
     @FXML private TextField codeResetPassword;
     @FXML private TextField emailResetPassword;
-    @FXML private ImageView loadingCircle;
-    @FXML private Text infoTextLabel;
     @FXML private TextField newPasswordTextField;
-
-    @FXML
-    protected void initialize() {
-        setLoadingCircle(this.loadingCircle);
-        setInfoTextLabel(this.infoTextLabel);
-    }
 
     @Override
     protected void transactServerResponse(ServerResponse response) {
@@ -49,7 +39,7 @@ public class PasswordResetController extends AbstractAuthorizationController {
                         passwordResetConfirmation.setDisable(false);//активна
                     } else {
                         setInfoTextLabelText(Responses.Authorization.DATA_CHANGED);
-                        AuthenticateModel.getInstance().setAuthorized(true);
+
                     }
                 }
                 case HttpStatus.SC_ACCEPTED -> {
@@ -70,9 +60,6 @@ public class PasswordResetController extends AbstractAuthorizationController {
                         default -> "Неверные данные пользователя";
                     };
 
-//                    if (message == null && resultObject.get("code").equals("ET01")) {
-//                        AuthorizationModel.getInstance().updateToken();
-//                    }
 
                     setInfoTextLabelText(message);
                 }
@@ -145,9 +132,6 @@ public class PasswordResetController extends AbstractAuthorizationController {
                 obj.put("email", emailResetPassword.getText());
                 obj.put("password", newPasswordTextField.getText());
                 String endPoint = Endpoints.RESET_PASSWORD;
-//                AuthorizationModel.getInstance().setRequest(
-//                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
-//                );
                 loadingCircle.setVisible(true);
                 HttpClient.getInstance().post(obj, endPoint);
                 checkServerResponseIs();

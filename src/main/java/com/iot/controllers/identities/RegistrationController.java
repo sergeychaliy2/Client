@@ -1,14 +1,14 @@
 package com.iot.controllers.identities;
+import com.iot.controllers.Controller;
 import com.iot.model.auth.AuthenticateModel;
 import com.iot.model.constants.Endpoints;
 import com.iot.model.constants.Responses;
 import com.iot.model.utils.HttpClient;
 import com.iot.model.utils.ServerResponse;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,21 +16,14 @@ import org.json.simple.parser.ParseException;
 
 import java.util.regex.Matcher;
 
-public class RegistrationController extends AbstractAuthorizationController{
+public class RegistrationController extends Controller {
     @FXML private Button verifyCodeActionBtn;
     @FXML private Button changeEmailBtn;
     @FXML private TextField verifyCodeTField;
     @FXML private TextField userPasswordTField;
     @FXML private TextField userEmailTField;
-    @FXML private Text infoTextLabel;
-    @FXML private ImageView loadingCircle;
     @FXML private TextField usersPasswordViewTField;
 
-    @FXML
-    protected void initialize() {
-        setLoadingCircle(this.loadingCircle);
-        setInfoTextLabel(this.infoTextLabel);
-    }
 
     @Override
     protected void transactServerResponse(ServerResponse response) {
@@ -56,7 +49,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                                 resultObject.get("refreshToken").toString()
                         );
                         setInfoTextLabelText(Responses.Authorization.SUCCESSFULLY_REGISTRATION);
-//                        Platform.runLater(this::homeScene);
+                        Platform.runLater(this::serviceUser);
                     }
                     else {
                         verifyCodeTField.setDisable(true);
@@ -78,10 +71,6 @@ public class RegistrationController extends AbstractAuthorizationController{
                         case "EA04"  -> Responses.Authorization.CLIENT_IS_NOT_AUTHENTICATED;
                         default      -> null;
                     };
-
-//                    if (message == null && resultObject.get("code").toString().equals("ET01")) {
-//                        AuthorizationModel.getInstance().updateToken();
-//                    }
 
                     setInfoTextLabelText(message);
                 }
@@ -115,9 +104,7 @@ public class RegistrationController extends AbstractAuthorizationController{
                     JSONObject obj = new JSONObject();
                     obj.put("email", userEmailTField.getText());
                     String endPoint = Endpoints.SEND_CODE;
-//                    AuthorizationModel.getInstance().setRequest(
-//                            new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
-//                    );
+
                     loadingCircle.setVisible(true);
                     HttpClient.getInstance().post(obj, endPoint);
                     checkServerResponseIs();
@@ -132,9 +119,6 @@ public class RegistrationController extends AbstractAuthorizationController{
                     obj.put("email", userEmailTField.getText());
                     obj.put("code", Integer.parseInt(verifyCodeTField.getText()));
                     String endPoint = Endpoints.CONFIRM_CODE;
-//                    AuthorizationModel.getInstance().setRequest(
-//                            new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
-//                    );
                     loadingCircle.setVisible(true);
                     HttpClient.getInstance().post(obj, endPoint);
                     checkServerResponseIs();
@@ -159,9 +143,6 @@ public class RegistrationController extends AbstractAuthorizationController{
             obj.put("email", userEmailTField.getText());
             obj.put("password", userPasswordTField.getText());
             String endPoint = Endpoints.REGISTRATION;
-//            AuthorizationModel.getInstance().setRequest(
-//                    new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
-//            );
             HttpClient.getInstance().post(obj, endPoint);
             checkServerResponseIs();
         } else {

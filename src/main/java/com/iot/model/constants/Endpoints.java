@@ -10,8 +10,8 @@ public final class Endpoints {
     public static final String RESET_PASSWORD = "/account/change/password";
     public static final String APP_CONNECTION = "/connection/app";
     public static final String UPDATE_TOKEN = "/token/update";
-    public static final String RECEIVING_DEVICES = "/management/user/devices";
-    public static final String OBTAINING_DEVICE_INFORMATION = "/management/user/devices/{id}";
-    public static final String STATE_CHANGE = "/management/user/devices/{id}/change";
-    public static final String RESET_STATUS = "/management/user/devices/{id}/reset";
+    public static final String ALL_DEVICES = "/management/user/devices";
+    public static final String ONE_DEVICE = "/management/user/devices/%d";
+//    public static final String STATE_CHANGE = "/management/user/devices/{id}/change";
+//    public static final String RESET_STATUS = "/management/user/devices/{id}/reset";
 }

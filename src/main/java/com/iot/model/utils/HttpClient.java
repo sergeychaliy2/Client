@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -41,7 +42,7 @@ public class HttpClient {
             throw new RuntimeException(e);
         }
     }
-    public void get(JSONObject obj, String endPoint) {
+    public void get(String endPoint) {
         try {
             final String patch = Configuration.getInstance().generate(true, endPoint);
             HttpGet get = new HttpGet(patch);
@@ -65,26 +66,15 @@ public class HttpClient {
 }
 class HttpClientRunner extends Thread {
     private final CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-    private HttpPost post;
-    private HttpGet get;
+    private final HttpUriRequest option;
 
-
-    public HttpClientRunner(HttpPost post) {
-        this.post = post;
-    }
-    public HttpClientRunner(HttpGet get) {
-        this.get = get;
+    public HttpClientRunner(HttpUriRequest option) {
+        this.option = option;
     }
 
     @Override
     public void run() {
-        try {
-            CloseableHttpResponse response;
-            if (post != null)     response = httpClient.execute(post);
-            else if (get != null) response = httpClient.execute(get);
-            else                  throw new RuntimeException("No defined method");
-
-            if (response == null) throw new Exception();
+        try (CloseableHttpResponse response = httpClient.execute(option)) {
             ServerResponse responseData = new ServerResponse(
                     response.getStatusLine().getStatusCode(),
                     EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8)

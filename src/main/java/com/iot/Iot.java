@@ -11,7 +11,8 @@ public class Iot extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
-        new SceneChanger(MAIN).start(new Stage());
+        SceneChanger.getInstance().setName(MAIN);
+        SceneChanger.getInstance().start(new Stage());
     }
 
     public static void main(String[] args) {

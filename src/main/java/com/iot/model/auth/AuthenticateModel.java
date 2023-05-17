@@ -8,8 +8,7 @@ public class AuthenticateModel {
     private final static AuthenticateModel instance = new AuthenticateModel();
     private final File tempFile;
     private volatile ServerResponse response;
-    private boolean isAuthorized = true;
-//    private volatile ServerRequest request;
+    private String userLogin;
     private String accessToken;
     private String refreshToken;
     private AuthenticateModel() {
@@ -22,48 +21,7 @@ public class AuthenticateModel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
-
-//    public void updateToken(AbstractAuthorizationController controller) {
-//        HttpClient.getInstance().getWithRefresh(UPDATE_TOKEN.toString());
-//        new Thread(() -> {
-//            while(true) {
-//                if (this.response != null) {
-//                    switch (response.responseCode()) {
-//                        case HttpStatus.SC_OK -> {
-//                            try {
-//                                JSONParser parser = new JSONParser();
-//                                JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
-//                                this.accessToken = resultObject.get("accessToken").toString();
-//                            } catch (ParseException e) {
-//                                throw new RuntimeException(e);
-//                            }
-//
-//                            if (request == null) throw new RuntimeException("Server request data is not defined");
-//
-//                            HttpClient instance = HttpClient.getInstance();
-//
-//                            if (request.reqType().equals(HttpRequestTypes.POST)) instance.post(request.postBody(), request.underPath());
-//                            else                                                 instance.get(request.underPath());
-//                            System.out.println(".");
-//
-//
-//                        }
-//                        case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
-//                            throw new RuntimeException("РЕФРЕШ ТОКЕН ПРОСРОЧЕН");
-//                            //Выкинуть из профиля
-//                        }
-//                    }
-//                    response = null;
-//                    request = null;
-//                    controller.getLoadingCircle().setVisible(false);
-//                    controller.checkServerResponseIs();
-//                    break;
-//                }
-//            }
-//        }).start();
-//    }
 
     public static AuthenticateModel getInstance() {
         return instance;
@@ -87,10 +45,8 @@ public class AuthenticateModel {
 
     public String getRefreshToken() {
         if (refreshToken == null) {
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(tempFile));
+            try (BufferedReader reader = new BufferedReader(new FileReader(tempFile))) {
                 refreshToken = reader.readLine();
-                reader.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -100,23 +56,26 @@ public class AuthenticateModel {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile, false));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile, false))){
             writer.write(refreshToken);
-            writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public boolean isAuthorized() {
-        return isAuthorized;
-    }
-    public void setAuthorized(boolean isAuthorized) {
-        this.isAuthorized = isAuthorized;
+        return userLogin != null;
     }
 
 //    public void setRequest(ServerRequest request) {
 //        this.request = request;
 //    }
 
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
 }

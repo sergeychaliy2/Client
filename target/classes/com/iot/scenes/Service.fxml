@@ -16,11 +16,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iot.controllers.service.ServiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iot.controllers.management.ManagementController">
    <children>
       <VBox prefHeight="720.0" prefWidth="1280.0">
          <children>
-            <HBox prefHeight="91.0" prefWidth="1280.0" style="-fx-background-color: #D9D9D9; -fx-border-color: #2E2D2D;">
+            <HBox fx:id="serviceBar" prefHeight="91.0" prefWidth="1280.0" style="-fx-background-color: #D9D9D9; -fx-border-color: #2E2D2D;">
                <children>
                   <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#findDeviceBtnClicked" prefHeight="39.0" prefWidth="317.0" style="-fx-background-color: #D9D9D9;" text="Найти устройство" textAlignment="CENTER">
                      <font>
@@ -48,7 +48,16 @@
                <children>
                   <StackPane prefHeight="633.0" prefWidth="1497.0">
                      <children>
-                        <ListView fx:id="paneDevice" prefHeight="389.0" prefWidth="789.0" />
+                        <Pane fx:id="introDeviceDescriptionPane" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="introDeviceInfo" prefHeight="633.0" prefWidth="1280.0" style="-fx-font-size: 25;" />
+                              <ImageView fx:id="loadingCircle2" fitHeight="141.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true" translateX="550.0" translateY="250.0" visible="false">
+                                 <image>
+                                    <Image url="@../../../loading.gif" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
                         <Pane fx:id="connectionWindowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="583.0" style="-fx-background-color: CFCFCF; -fx-background-radius: 10px;" visible="false">
                            <children>
                               <VBox fx:id="connectionWindowVBox" layoutX="2.0" layoutY="2.0" prefHeight="475.0" prefWidth="581.0" style="-fx-background-radius: 10px;" visible="false">
@@ -91,6 +100,11 @@
                               <Insets bottom="152.0" right="40.0" />
                            </StackPane.margin>
                         </Pane>
+                        <Pane fx:id="fullDeviceDescriptionPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="549.0" prefWidth="1099.0" style="-fx-background-color: CFCFCF;" visible="false">
+                           <children>
+                              <ListView fx:id="sensorsList" layoutY="95.0" prefHeight="454.0" prefWidth="1099.0" style="-fx-font-size: 25;" visible="false" />
+                              <Label fx:id="deviceName" layoutX="35.0" layoutY="14.0" prefHeight="63.0" prefWidth="1031.0" style="-fx-font-size: 35;" visible="false" />
+                           </children></Pane>
                      </children>
                   </StackPane>
                </children></HBox>

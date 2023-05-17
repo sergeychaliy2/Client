@@ -51,6 +51,9 @@ public final class Responses {
 
     public static final class Service {
         private Service() {}
+
+        public static final String DEVICE_STATE_HAS_BEEN_UPDATED = "Device state has been updated";
+        public static final String DEVICE_LISTENING_STATE_WAS_RESET = "Device listening state was reset";
         public static final String DEVICE_WAS_NOT_FOUND = "Устройство не было обнаружено";
         public static final String USER_OR_DEVICE_WAS_NOT_FOUND = "Пользователь или устройство не было найдено";
         public static final String DEVICE_STATE_WAS_NOT_UPDATED = "Состояние устройства не было обновлено";
