@@ -55,6 +55,7 @@ public abstract class Manager extends Controller {
     protected boolean isArrayWaiting = false;
     protected static final String exitFromProfileText = "Выход";
 
+
     protected void setUpListViewSettings() {
         introDeviceInfo.setFixedCellSize(100.0);
         introDeviceInfo.setOnMouseClicked(event -> {

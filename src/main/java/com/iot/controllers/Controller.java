@@ -1,6 +1,7 @@
 package com.iot.controllers;
 
 import com.iot.model.auth.AuthenticateModel;
+import com.iot.model.utils.AlertDialog;
 import com.iot.model.utils.ServerResponse;
 import com.iot.scenes.SceneChanger;
 import com.iot.scenes.ScenesNames;
@@ -49,10 +50,13 @@ public abstract class Controller {
 
     @FXML
     protected void serviceUser() {
-        if (AuthenticateModel.getInstance().isAuthorized()){
+        if (AuthenticateModel.getInstance().isAuthorized() || AuthenticateModel.getInstance().getAccessToken() != null){
             changeScene(SERVICE);
         }
-        //todo dialog window
+        AlertDialog.alertOf (
+                AlertDialog.CustomAlert.EXCEPTION,
+                "Ошибка", "Вы не авторизованы"
+        ).showAndWait();
     }
 
     @FXML
@@ -78,7 +82,7 @@ public abstract class Controller {
                 if (response != null) {
                     try {
                         transactServerResponse(response);
-                        loadingCircle.setVisible(false);
+                        if (loadingCircle != null) loadingCircle.setVisible(false);
                         AuthenticateModel.getInstance().setResponse(null);
                         break;
                     } catch (Exception e) {

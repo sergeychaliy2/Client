@@ -18,8 +18,6 @@ public final class Responses {
         public static final String USER_ALREADY_EXISTS = "Пользователь c такими данными уже существует";
         public static final String CLIENT_IS_NOT_AUTHENTICATED = "Сначала пройдите верификацию по коду подтверждения";
         public static final String PASSWORD_IS_NOT_CORRECT = "Указан неверный пароль";
-        public static final String TOKEN_IS_ENDED = "Время жизни токена было истрачено или его структура некорректна";
-        public static final String NO_USER_ID = "В Payload JWT отсутствует айди пользователя";
         public static final String NO_USER = "Пользователь не найден";
         public static final String WRONG_DATA_USER = "Неверные данные пользователя";
         public static final String ERROR_AUTHORIZED = "Ошибка авторизации";
@@ -55,11 +53,11 @@ public final class Responses {
         public static final String DEVICE_STATE_HAS_BEEN_UPDATED = "Device state has been updated";
         public static final String DEVICE_LISTENING_STATE_WAS_RESET = "Device listening state was reset";
         public static final String DEVICE_WAS_NOT_FOUND = "Устройство не было обнаружено";
-        public static final String USER_OR_DEVICE_WAS_NOT_FOUND = "Пользователь или устройство не было найдено";
+        public static final String USER_OR_DEVICE_WAS_NOT_FOUND = "Пользователь или устройство не было найдено\n" +
+                "Обратитесь в техническую поддержку";
         public static final String DEVICE_STATE_WAS_NOT_UPDATED = "Состояние устройства не было обновлено";
-        public static final String DEVICE_IS_NOT_LISTENING = "Устройство не прослушивается сокетом в текущий момент";
-        public static final String STATE_OF_SENSOR_IS_NOT_VALID = "Переданное состояние устройства для изменения не соответствует стандартам";
-        public static final String TOKEN_IS_NOT_VALID = "Время жизни токена было истрачено или его структура некорректна";
-        public static final String TOKEN_PAYLOAD_IS_INCORRECT = "В Payload JWT отсутствует айди пользователя";
+        public static final String DEVICE_IS_NOT_LISTENING = "Устройство не присоединено к серверу";
+        public static final String DEVICE_STATE_WAS_CHANGED = "Состояние устройства было изменено";
+        public static final String DEVICE_WAS_RESET = "Устройство снова доступно для присоединения";
     }
 }

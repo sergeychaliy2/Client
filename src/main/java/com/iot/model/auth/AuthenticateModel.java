@@ -6,21 +6,47 @@ import java.io.*;
 
 public class AuthenticateModel {
     private final static AuthenticateModel instance = new AuthenticateModel();
-    private final File tempFile;
+    private final File dataFile;
     private volatile ServerResponse response;
     private String userLogin;
+    private String userPassword;
     private String accessToken;
     private String refreshToken;
     private AuthenticateModel() {
-        tempFile = new File("temp.txt");
+        dataFile = new File("temp.txt");
 
         try {
-            if (!tempFile.exists()) {
-                tempFile.createNewFile();
+            if (!dataFile.exists()) {
+                dataFile.createNewFile();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        preInitialFileData();
+    }
+
+    private void preInitialFileData() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(dataFile))) {
+            reader.lines().forEach(line->
+                    {
+                           String[] str = line.split(",");
+                        System.out.println(str[0]);
+                        System.out.println(str[1].length());
+                           if (str.length > 2) { throw new RuntimeException("Illegal array size"); }
+                           switch (str[0]) {
+                               case "refresh":      refreshToken = str[1];
+                               case "login":        userLogin = str[1];
+                               case "password":     userPassword = str[1];
+                           }
+                    });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateFileData() {
+        //todo setting new login \ password \ tokens
     }
 
     public static AuthenticateModel getInstance() {
@@ -44,23 +70,17 @@ public class AuthenticateModel {
     }
 
     public String getRefreshToken() {
-        if (refreshToken == null) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(tempFile))) {
-                refreshToken = reader.readLine();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
         return refreshToken;
     }
 
     public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile, false))){
-            writer.write(refreshToken);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        this.refreshToken = refreshToken;
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dataFile, false))){
+//            writer.write(refreshToken);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        //todo
     }
     public boolean isAuthorized() {
         return userLogin != null;

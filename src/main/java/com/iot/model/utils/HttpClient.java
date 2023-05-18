@@ -1,5 +1,6 @@
 package com.iot.model.utils;
 import com.iot.model.auth.AuthenticateModel;
+import com.iot.model.constants.Endpoints;
 import javafx.util.Pair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -21,9 +22,13 @@ public class HttpClient {
         return instance;
     }
 
-    private Pair<String, String> getAuthorizationHeader() {
+    private Pair<String, String> getAuthHeader(boolean isAccess) {
         AuthenticateModel model = AuthenticateModel.getInstance();
-        return new Pair<>("Authorization", String.format("Bearer %s", model.getAccessToken()));
+        String token;
+        if (isAccess)   token = model.getAccessToken();
+        else            token = model.getRefreshToken();
+
+        return new Pair<>("Authorization", String.format("Bearer %s", token));
     }
 
     public void post(JSONObject obj, String endPoint) {
@@ -33,7 +38,7 @@ public class HttpClient {
             final StringEntity entity;
             entity = new StringEntity(obj.toString());
             post.setEntity(entity);
-            Pair<String, String> authPair = getAuthorizationHeader();
+            Pair<String, String> authPair = getAuthHeader(true);
             post.setHeader(authPair.getKey(), authPair.getValue());
             post.setHeader("Accept", "application/json");
             post.setHeader("Content-type", "application/json");
@@ -46,18 +51,19 @@ public class HttpClient {
         try {
             final String patch = Configuration.getInstance().generate(true, endPoint);
             HttpGet get = new HttpGet(patch);
-            Pair<String, String> authPair = getAuthorizationHeader();
+            Pair<String, String> authPair = getAuthHeader(true);
             get.setHeader(authPair.getKey(), authPair.getValue());
             new HttpClientRunner(get).start();
         } catch (IllegalThreadStateException e) {
             throw new RuntimeException(e);
         }
     }
-    public void getWithRefresh(String endPoint) {
+    public void getWithRefresh() {
         try {
-            final String patch = Configuration.getInstance().generate(true, endPoint);
+            final String patch = Configuration.getInstance().generate(true, Endpoints.UPDATE_TOKEN);
             HttpGet get = new HttpGet(patch);
-            get.setHeader("Authorization", String.format("Bearer %s",  AuthenticateModel.getInstance().getRefreshToken()));
+            Pair<String, String> authPair = getAuthHeader(false);
+            get.setHeader(authPair.getKey(), authPair.getValue());
             new HttpClientRunner(get).start();
         } catch (IllegalThreadStateException e) {
             throw new RuntimeException(e);
@@ -80,6 +86,7 @@ class HttpClientRunner extends Thread {
                     EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8)
             );
             AuthenticateModel.getInstance().setResponse(responseData);
+            System.out.println(responseData);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
