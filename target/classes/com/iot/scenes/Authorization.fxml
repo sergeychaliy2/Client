@@ -59,12 +59,12 @@
                 </HBox>
                 <AnchorPane prefHeight="666.0" prefWidth="1280.0">
                     <children>
-                        <TextField fx:id="emailText" layoutX="508.0" layoutY="199.0" prefHeight="39.0" prefWidth="270.0" promptText="Почта" style="-fx-border-color: #2E2D2D; -fx-background-color: #E8E8E8; -fx-background-radius: 5; -fx-border-radius: 5;">
+                        <TextField fx:id="userEmailTField" layoutX="508.0" layoutY="199.0" prefHeight="39.0" prefWidth="270.0" promptText="Почта" style="-fx-border-color: #2E2D2D; -fx-background-color: #E8E8E8; -fx-background-radius: 5; -fx-border-radius: 5;">
                             <font>
                                 <Font size="17.0" />
                             </font>
                         </TextField>
-                        <PasswordField fx:id="passwordText" layoutX="508.0" layoutY="258.0" prefHeight="39.0" prefWidth="270.0" promptText="Пароль" style="-fx-border-color: #2E2D2D; -fx-background-color: #E8E8E8; -fx-background-radius: 5; -fx-border-radius: 5;">
+                        <PasswordField fx:id="userPasswordTField" layoutX="508.0" layoutY="258.0" prefHeight="39.0" prefWidth="270.0" promptText="Пароль" style="-fx-border-color: #2E2D2D; -fx-background-color: #E8E8E8; -fx-background-radius: 5; -fx-border-radius: 5;">
                             <font>
                                 <Font size="17.0" />
                             </font>

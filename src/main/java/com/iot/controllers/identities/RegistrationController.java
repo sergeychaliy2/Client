@@ -42,11 +42,12 @@ public class RegistrationController extends Controller {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
 
                     if (resultObject.get("msg") == null) {
-                        AuthenticateModel.getInstance().setAccessToken(
+
+                        AuthenticateModel.getInstance().updateFileData(
+                                userEmailTField.getText(),
+                                userPasswordTField.getText(),
+                                resultObject.get("refreshToken").toString(),
                                 resultObject.get("accessToken").toString()
-                        );
-                        AuthenticateModel.getInstance().setRefreshToken(
-                                resultObject.get("refreshToken").toString()
                         );
                         setInfoTextLabelText(Responses.Authorization.SUCCESSFULLY_REGISTRATION);
                         Platform.runLater(this::serviceUser);

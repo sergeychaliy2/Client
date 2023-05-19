@@ -50,8 +50,9 @@ public abstract class Controller {
 
     @FXML
     protected void serviceUser() {
-        if (AuthenticateModel.getInstance().isAuthorized() || AuthenticateModel.getInstance().getAccessToken() != null){
+        if (AuthenticateModel.getInstance().getIsAuthorized()){
             changeScene(SERVICE);
+            return;
         }
         AlertDialog.alertOf (
                 AlertDialog.CustomAlert.EXCEPTION,

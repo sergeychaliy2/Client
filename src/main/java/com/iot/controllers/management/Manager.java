@@ -6,15 +6,11 @@ import com.iot.model.constants.Endpoints;
 import com.iot.model.service.CustomWebSocketHandler;
 import com.iot.model.service.DetailedDevice;
 import com.iot.model.service.DeviceDefinition;
+import com.iot.model.utils.AlertDialog;
 import com.iot.model.utils.Configuration;
 import com.iot.model.utils.HttpClient;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -51,9 +47,10 @@ public abstract class Manager extends Controller {
     @FXML
     protected ListView<DeviceDefinition> introDeviceInfo;
 
-    protected boolean isConnectionWindowOpen = false;
+    private boolean isConnectionWindowOpen = false;
     protected boolean isArrayWaiting = false;
     protected static final String exitFromProfileText = "Выход";
+
 
 
     protected void setUpListViewSettings() {
@@ -120,9 +117,19 @@ public abstract class Manager extends Controller {
         String str = userComboBox.getSelectionModel().getSelectedItem();
 
         if (str.equals(exitFromProfileText)) {
-            //todo вы уверены, что хотите выйти
-//            AuthenticateModel.getInstance().setUserLogin(null);
-            homeScene();
+            Alert alert = AlertDialog.alertOf (
+                    AlertDialog.CustomAlert.CONFIRMATION,
+                    "Подтверждение",
+                    "Вы хотите выйти?"
+            );
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.YES) {
+                AuthenticateModel.getInstance().setIsAuthorized(false);
+                homeScene();
+            } else {
+                serviceUser();
+            }
         }
     }
 

@@ -12,6 +12,8 @@ public class AuthenticateModel {
     private String userPassword;
     private String accessToken;
     private String refreshToken;
+    private boolean isAuthorized = false;
+    private boolean isFirstOpen = true;
     private AuthenticateModel() {
         dataFile = new File("temp.txt");
 
@@ -30,23 +32,41 @@ public class AuthenticateModel {
         try (BufferedReader reader = new BufferedReader(new FileReader(dataFile))) {
             reader.lines().forEach(line->
                     {
-                           String[] str = line.split(",");
-                        System.out.println(str[0]);
-                        System.out.println(str[1].length());
-                           if (str.length > 2) { throw new RuntimeException("Illegal array size"); }
-                           switch (str[0]) {
-                               case "refresh":      refreshToken = str[1];
-                               case "login":        userLogin = str[1];
-                               case "password":     userPassword = str[1];
-                           }
+                        String[] str = line.split(",");
+                        if (str.length > 2) { throw new RuntimeException("Illegal array size"); }
+                        switch (str[0]) {
+                            case "refresh" ->  refreshToken = str[1];
+                            case "login"   ->  userLogin = str[1];
+                            case "password"->  userPassword = str[1];
+                        }
                     });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateFileData() {
-        //todo setting new login \ password \ tokens
+    private boolean isFieldsSimilar(String login, String password, String refresh) {
+        return this.userLogin.equals(login) && this.userPassword.equals(password) && this.refreshToken.equals(refresh);
+
+    }
+
+    public void updateFileData(String login, String password, String refreshToken, String accessToken) {
+        if (isFieldsSimilar(login, password, refreshToken)) return;
+
+        this.userLogin = login;
+        this.userPassword = password;
+        this.refreshToken = refreshToken;
+        this.accessToken = accessToken;
+
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(dataFile, false))) {
+            writer.write(String.format("%s,%s", "login", login));
+            writer.write(String.format("\n%s,%s", "password", password));
+            writer.write(String.format("\n%s,%s", "refresh", refreshToken));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.isAuthorized = true;
     }
 
     public static AuthenticateModel getInstance() {
@@ -73,29 +93,24 @@ public class AuthenticateModel {
         return refreshToken;
     }
 
-    public void setRefreshToken(String refreshToken) {
-//        this.refreshToken = refreshToken;
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dataFile, false))){
-//            writer.write(refreshToken);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-        //todo
+    public void setIsAuthorized(boolean state) {
+        this.isAuthorized = state;
     }
-    public boolean isAuthorized() {
-        return userLogin != null;
-    }
-
-//    public void setRequest(ServerRequest request) {
-//        this.request = request;
-//    }
-
+    public boolean getIsAuthorized() { return isAuthorized; }
 
     public String getUserLogin() {
         return userLogin;
     }
 
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public boolean isFirstOpen() {
+        return isFirstOpen;
+    }
+
+    public void setFirstOpen(boolean firstOpen) {
+        isFirstOpen = firstOpen;
     }
 }

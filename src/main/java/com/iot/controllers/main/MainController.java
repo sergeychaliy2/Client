@@ -35,29 +35,31 @@ public class MainController extends Controller {
                     }
                 }
     }
+    @FXML private Button connectBtn;
 
     @FXML
     protected void initialize() {
-        HttpClient.getInstance().getWithRefresh();
-        checkServerResponseIs();
+        if (AuthenticateModel.getInstance().isFirstOpen()) {
+            HttpClient.getInstance().getWithRefresh();
+            checkServerResponseIs();
+            AuthenticateModel.getInstance().setFirstOpen(false);
+        }
     }
 
     @Override
     protected void transactServerResponse(ServerResponse response) {
         if (response.responseCode() == HttpStatus.SC_OK) {
             try {
-                System.out.println("1");
                 JSONParser parser = new JSONParser();
                 JSONObject res = (JSONObject) parser.parse(response.responseMsg());
                 AuthenticateModel.getInstance().setAccessToken(res.get("accessToken").toString());
+                AuthenticateModel.getInstance().setIsAuthorized(true);
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
         }
 
     }
-
-    @FXML private Button connectBtn;
 
     @Override
     protected Stage getThisStage() {

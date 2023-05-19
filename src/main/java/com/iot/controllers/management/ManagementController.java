@@ -24,16 +24,17 @@ import static com.iot.model.utils.AlertDialog.CustomAlert.INFORMATION;
 
 
 public class ManagementController extends Manager {
+    private int tokenExpiredRequestsCounter = 0;
 
     @FXML
     protected void initialize() {
-        if (!AuthenticateModel.getInstance().isAuthorized()) {
+        if (!AuthenticateModel.getInstance().getIsAuthorized()) {
             //todo dialog window
             homeScene();
         }
-
         userComboBox.setPromptText(AuthenticateModel.getInstance().getUserLogin());
         userComboBox.setItems(FXCollections.singletonObservableList(exitFromProfileText));
+
         setUpListViewSettings();
         sensorsList.setFixedCellSize(100.0);
 
@@ -63,6 +64,7 @@ public class ManagementController extends Manager {
         loadingCircle2.setVisible(false);
     }
 
+    @Override
     protected void transactServerResponse(ServerResponse response) {
         try {
             JSONParser parser = new JSONParser();
@@ -79,10 +81,18 @@ public class ManagementController extends Manager {
                         }
 
                         Platform.runLater(() ->
-                                AlertDialog.alertOf(INFORMATION, "Инофрмация", responseMessage).showAndWait()
+                                AlertDialog.alertOf(INFORMATION, "Информация", responseMessage).showAndWait()
                         );
 
                     } catch (Exception e) {
+                        try {
+                            if (resultObject.get("message").toString().equals(ACCESS_TOKEN_WAS_UPDATED)) {
+                                tokenExpiredRequestsCounter = 0;
+                                Platform.runLater(this::serviceUser);
+                                return;
+                            }
+                        } catch(Exception ignore) {}
+
                         if (isArrayWaiting) {
                             collectDevicesToList(
                                     (JSONArray) resultObject.get("deviceListInfo")
@@ -121,6 +131,15 @@ public class ManagementController extends Manager {
                     };
 
                     if (message == null) {
+                        if (++tokenExpiredRequestsCounter == 2) {
+                            AuthenticateModel.getInstance().setIsAuthorized(false);
+                            Platform.runLater(this::authorizationScene);
+                            return;
+                        }
+                        HttpClient.getInstance().getWithRefresh();
+                        checkServerResponseIs();
+
+                        System.out.println(tokenExpiredRequestsCounter);
                     } else {
                         Platform.runLater(() ->
                                 AlertDialog.alertOf(EXCEPTION, "Ошибка", message).showAndWait()
