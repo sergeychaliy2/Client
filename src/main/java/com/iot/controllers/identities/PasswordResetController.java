@@ -13,6 +13,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.util.regex.Matcher;
 
+import static com.iot.model.constants.Endpoints.SEND_CODE;
+
 public class PasswordResetController extends Controller {
     @FXML private Button sendCodeResetPasswordBtn;
     @FXML private Button codeVerifyBtn;
@@ -82,14 +84,8 @@ public class PasswordResetController extends Controller {
 
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
-
-                String endPoint = Endpoints.SEND_CODE;
-//                AuthorizationModel.getInstance().setRequest(
-//                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
-//                );
-
                 loadingCircle.setVisible(true);
-                HttpClient.getInstance().post(obj, endPoint);
+                HttpClient.execute(obj, SEND_CODE, HttpClient.HttpMethods.POST);
                 checkServerResponseIs();
             } else {
                 setInfoTextLabelText(Responses.Authorization.EMAIL_MESSAGE_FAILED);
@@ -107,13 +103,8 @@ public class PasswordResetController extends Controller {
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
                 obj.put("code", codeResetPassword.getText());
-                String endPoint = Endpoints.CONFIRM_CODE;
-//                AuthorizationModel.getInstance().setRequest(
-//                        new ServerRequest(endPoint, HttpRequestTypes.POST, obj)
-//                );
-
                 loadingCircle.setVisible(true);
-                HttpClient.getInstance().post(obj, endPoint);
+                HttpClient.execute(obj, Endpoints.CONFIRM_CODE, HttpClient.HttpMethods.POST);
                 checkServerResponseIs();
             } else {
                 setInfoTextLabelText(Responses.Authorization.VERIFICATION_CODE_IS_NOT_VALID);
@@ -127,13 +118,12 @@ public class PasswordResetController extends Controller {
             clearErrorLabel();
             Matcher matcherLogin = patternLogin.matcher(emailResetPassword.getText());
             Matcher matcherPassword = patternPassword.matcher(newPasswordTextField.getText());
-            if ((matcherLogin.matches())&&(matcherPassword.matches())){
+            if (matcherLogin.matches() && matcherPassword.matches()) {
                 JSONObject obj = new JSONObject();
                 obj.put("email", emailResetPassword.getText());
                 obj.put("password", newPasswordTextField.getText());
-                String endPoint = Endpoints.RESET_PASSWORD;
                 loadingCircle.setVisible(true);
-                HttpClient.getInstance().post(obj, endPoint);
+                HttpClient.execute(obj, Endpoints.RESET_PASSWORD, HttpClient.HttpMethods.PUT);
                 checkServerResponseIs();
             } else {
                 setInfoTextLabelText(Responses.Authorization.PASSWORD_FORMAT_IS_INCORRECT);

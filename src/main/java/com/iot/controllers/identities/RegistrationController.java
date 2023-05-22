@@ -104,10 +104,8 @@ public class RegistrationController extends Controller {
                 if (matcherLogin.matches()) {
                     JSONObject obj = new JSONObject();
                     obj.put("email", userEmailTField.getText());
-                    String endPoint = Endpoints.SEND_CODE;
-
                     loadingCircle.setVisible(true);
-                    HttpClient.getInstance().post(obj, endPoint);
+                    HttpClient.execute(obj, Endpoints.SEND_CODE, HttpClient.HttpMethods.POST);
                     checkServerResponseIs();
                 } else {
                     setInfoTextLabelText(Responses.Authorization.EMAIL_FORMAT_IS_NOT_VALID);
@@ -119,9 +117,8 @@ public class RegistrationController extends Controller {
                     JSONObject obj = new JSONObject();
                     obj.put("email", userEmailTField.getText());
                     obj.put("code", Integer.parseInt(verifyCodeTField.getText()));
-                    String endPoint = Endpoints.CONFIRM_CODE;
                     loadingCircle.setVisible(true);
-                    HttpClient.getInstance().post(obj, endPoint);
+                    HttpClient.execute(obj, Endpoints.CONFIRM_CODE, HttpClient.HttpMethods.POST);
                     checkServerResponseIs();
                 } else {
                     setInfoTextLabelText(Responses.Authorization.ERROR_VERIFICATION_CODE_LENGTH_OR_FORMAT_INCORRECT);
@@ -143,8 +140,7 @@ public class RegistrationController extends Controller {
             JSONObject obj = new JSONObject();
             obj.put("email", userEmailTField.getText());
             obj.put("password", userPasswordTField.getText());
-            String endPoint = Endpoints.REGISTRATION;
-            HttpClient.getInstance().post(obj, endPoint);
+            HttpClient.execute(obj, Endpoints.REGISTRATION, HttpClient.HttpMethods.POST);
             checkServerResponseIs();
         } else {
             setInfoTextLabelText(Responses.Authorization.FORM_IS_NOT_FILLED_OR_HAS_INCORRECT_DATA);

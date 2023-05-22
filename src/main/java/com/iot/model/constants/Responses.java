@@ -34,7 +34,7 @@ public final class Responses {
         public static final String BOARD_WAS_FOUND_RU = "Устройство было найдено";
         public static final String CLIENT_SEARCHING = "Поиск клиента...";
 
-        public static final String BOARD_WAS_FOUND ="{\"message\":\"Board was found\"}";
+        public static final String BOARD_WAS_FOUND = "Board was found";
         public static final String CLIENTS_WAS_NOT_CONNECTED = "Clients was not connected";
         public static final String BOARD_ID_SUCCESSFULLY_RECEIVED = "Board id successfully received";
         public static final String SENDING_BOARD_ID_ACCEPTED = "Sending board id accepted";

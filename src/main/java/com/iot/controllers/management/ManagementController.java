@@ -9,7 +9,10 @@ import com.iot.model.utils.ServerResponse;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,8 +22,7 @@ import org.json.simple.parser.ParseException;
 import java.util.Set;
 
 import static com.iot.model.constants.Responses.Service.*;
-import static com.iot.model.utils.AlertDialog.CustomAlert.EXCEPTION;
-import static com.iot.model.utils.AlertDialog.CustomAlert.INFORMATION;
+import static com.iot.model.utils.AlertDialog.CustomAlert.*;
 
 
 public class ManagementController extends Manager {
@@ -32,18 +34,19 @@ public class ManagementController extends Manager {
             //todo dialog window
             homeScene();
         }
+
+        setUpResolvingConnectionWebSocket();
+        resolvingConnectionsWS.connect();
+
         userComboBox.setPromptText(AuthenticateModel.getInstance().getUserLogin());
         userComboBox.setItems(FXCollections.singletonObservableList(exitFromProfileText));
 
         setUpListViewSettings();
-        sensorsList.setFixedCellSize(100.0);
-
         isArrayWaiting = true;
-        HttpClient.getInstance().get (
-                Endpoints.ALL_DEVICES
-        );
+        HttpClient.execute (null, Endpoints.ALL_DEVICES, HttpClient.HttpMethods.GET);
         loadingCircle2.setVisible(true);
         checkServerResponseIs();
+
     }
 
     private void collectDevicesToList(JSONArray arr) {
@@ -136,7 +139,7 @@ public class ManagementController extends Manager {
                             Platform.runLater(this::authorizationScene);
                             return;
                         }
-                        HttpClient.getInstance().getWithRefresh();
+                        HttpClient.execute(null, Endpoints.UPDATE_TOKEN, HttpClient.HttpMethods.GET);
                         checkServerResponseIs();
 
                         System.out.println(tokenExpiredRequestsCounter);

@@ -66,9 +66,8 @@ public class AuthorizationController extends Controller {
             JSONObject obj = new JSONObject();
             obj.put("email", userEmailTField.getText());
             obj.put("password", userPasswordTField.getText());
-            String endPoint = Endpoints.AUTHORIZATION;
             loadingCircle.setVisible(true);
-            HttpClient.getInstance().post(obj, endPoint);
+            HttpClient.execute(obj, Endpoints.AUTHORIZATION, HttpClient.HttpMethods.POST);
             checkServerResponseIs();
         } else {
             setInfoTextLabelText((Responses.Authorization.ERROR_AUTHORIZED));

@@ -13,7 +13,7 @@ public class AuthenticateModel {
     private String accessToken;
     private String refreshToken;
     private boolean isAuthorized = false;
-    private boolean isFirstOpen = true;
+    private boolean isAppFirstOpen = true;
     private AuthenticateModel() {
         dataFile = new File("temp.txt");
 
@@ -106,11 +106,11 @@ public class AuthenticateModel {
         return userPassword;
     }
 
-    public boolean isFirstOpen() {
-        return isFirstOpen;
+    public boolean isAppFirstOpen () {
+        return this.isAppFirstOpen;
     }
 
-    public void setFirstOpen(boolean firstOpen) {
-        isFirstOpen = firstOpen;
+    public void setAppFirstOpen (boolean isAppFirstOpen) {
+        this.isAppFirstOpen = isAppFirstOpen;
     }
 }

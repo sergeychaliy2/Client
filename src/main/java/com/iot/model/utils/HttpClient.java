@@ -1,11 +1,7 @@
 package com.iot.model.utils;
 import com.iot.model.auth.AuthenticateModel;
-import com.iot.model.constants.Endpoints;
 import javafx.util.Pair;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -13,16 +9,19 @@ import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
-public class HttpClient {
-    private static final HttpClient instance = new HttpClient();
-    private HttpClient() {}
-    public static HttpClient getInstance() {
-        return instance;
-    }
+import static com.iot.model.constants.Endpoints.UPDATE_TOKEN;
 
-    private Pair<String, String> getAuthHeader(boolean isAccess) {
+public final class HttpClient {
+    private static final HttpPost post = new HttpPost();
+    private static final HttpGet get = new HttpGet();
+    private static final HttpPut put = new HttpPut();
+    public enum HttpMethods {GET, POST, PUT}
+    private HttpClient() {}
+
+    private static Pair<String, String> getAuthHeader(boolean isAccess) {
         AuthenticateModel model = AuthenticateModel.getInstance();
         String token;
         if (isAccess)   token = model.getAccessToken();
@@ -31,55 +30,59 @@ public class HttpClient {
         return new Pair<>("Authorization", String.format("Bearer %s", token));
     }
 
-    public void post(JSONObject obj, String endPoint) {
-        try {
-            final String path = Configuration.getInstance().generate(true, endPoint);
-            HttpPost post = new HttpPost(path);
-            final StringEntity entity;
-            entity = new StringEntity(obj.toString());
-            post.setEntity(entity);
-            Pair<String, String> authPair = getAuthHeader(true);
-            post.setHeader(authPair.getKey(), authPair.getValue());
-            post.setHeader("Accept", "application/json");
-            post.setHeader("Content-type", "application/json");
-            new HttpClientRunner(post).start();
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+    public static void execute(JSONObject obj, String endPoint, HttpMethods type) {
+        final String path = Configuration.generate(true, endPoint);
+        Pair<String, String> authPair = getAuthHeader(true);
+        HttpRequestBase method;
+
+        switch (type) {
+            case POST  -> method = post;
+            case PUT   -> method = put;
+            case GET   -> method = get;
+            default    -> throw new RuntimeException("Method is not exists");
         }
-    }
-    public void get(String endPoint) {
-        try {
-            final String patch = Configuration.getInstance().generate(true, endPoint);
-            HttpGet get = new HttpGet(patch);
-            Pair<String, String> authPair = getAuthHeader(true);
-            get.setHeader(authPair.getKey(), authPair.getValue());
-            new HttpClientRunner(get).start();
-        } catch (IllegalThreadStateException e) {
-            throw new RuntimeException(e);
+
+        method.setURI(URI.create(path));
+
+        if (obj == null && method instanceof HttpGet) {
+            if (endPoint.equals(UPDATE_TOKEN)) authPair = getAuthHeader(false);
+
+            method.setHeader(authPair.getKey(), authPair.getValue());
+            new HttpClientRunner().setOption(method).start();
+        } else {
+            try {
+                if (!(method instanceof HttpEntityEnclosingRequestBase castedMethod))
+                    throw new RuntimeException("Method is not instance of HttpEntityEnclosingRequestBase.class");
+
+                if (obj == null)
+                    throw new RuntimeException("Body is empty");
+
+                castedMethod.setEntity(new StringEntity(obj.toString()));
+                castedMethod.setHeader("Accept", "application/json");
+                castedMethod.setHeader("Content-type", "application/json");
+                castedMethod.setHeader(authPair.getKey(), authPair.getValue());
+
+                new HttpClientRunner().setOption(castedMethod).start();
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
         }
-    }
-    public void getWithRefresh() {
-        try {
-            final String patch = Configuration.getInstance().generate(true, Endpoints.UPDATE_TOKEN);
-            HttpGet get = new HttpGet(patch);
-            Pair<String, String> authPair = getAuthHeader(false);
-            get.setHeader(authPair.getKey(), authPair.getValue());
-            new HttpClientRunner(get).start();
-        } catch (IllegalThreadStateException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 }
 class HttpClientRunner extends Thread {
     private final CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-    private final HttpUriRequest option;
+    private HttpUriRequest option;
 
-    public HttpClientRunner(HttpUriRequest option) {
+    public HttpClientRunner setOption(HttpUriRequest option) {
         this.option = option;
+        return this;
     }
 
     @Override
     public void run() {
+        if (option == null) throw new RuntimeException("Option is null");
+
         try (CloseableHttpResponse response = httpClient.execute(option)) {
             ServerResponse responseData = new ServerResponse(
                     response.getStatusLine().getStatusCode(),

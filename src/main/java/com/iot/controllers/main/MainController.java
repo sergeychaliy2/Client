@@ -2,6 +2,7 @@ package com.iot.controllers.main;
 
 import com.iot.controllers.Controller;
 import com.iot.model.auth.AuthenticateModel;
+import com.iot.model.constants.Endpoints;
 import com.iot.model.utils.HttpClient;
 import com.iot.model.utils.ServerResponse;
 import javafx.fxml.FXML;
@@ -39,10 +40,10 @@ public class MainController extends Controller {
 
     @FXML
     protected void initialize() {
-        if (AuthenticateModel.getInstance().isFirstOpen()) {
-            HttpClient.getInstance().getWithRefresh();
+        if (AuthenticateModel.getInstance().isAppFirstOpen()) {
+            HttpClient.execute(null, Endpoints.UPDATE_TOKEN, HttpClient.HttpMethods.GET);
             checkServerResponseIs();
-            AuthenticateModel.getInstance().setFirstOpen(false);
+            AuthenticateModel.getInstance().setAppFirstOpen(false);
         }
     }
 

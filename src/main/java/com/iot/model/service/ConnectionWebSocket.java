@@ -8,34 +8,42 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.iot.model.constants.Responses.Socket.*;
 
 
-public class CustomWebSocketHandler extends WebSocketClient {
+public class ConnectionWebSocket extends WebSocketClient {
     private final static String boardIdPattern = "{ \"boardIdentificationData\" : { \"boardUUID\": \"%s\" } }";
     private final String uuid;
     private final Text textLabel;
     private final ImageView loadingCircle;
-
+    private final ResolvingConnectionsWebSocket resolvingConnectionsWS;
     private final Pane box;
 
-    public CustomWebSocketHandler(URI serverUri,
-                                  Map<String, String> httpHeaders,
-                                  String uuid, Text textLabel,
-                                  ImageView loadingCircle, Pane box) {
-        super(serverUri, httpHeaders);
+    public ConnectionWebSocket(String path, String uuid,
+                               Pane box,  Text textLabel,
+                               ImageView loadingCircle,
+                               ResolvingConnectionsWebSocket resolvingConnectionsWS)
+    {
+        super(URI.create(path));
         this.uuid = uuid;
+        this.box = box;
         this.textLabel = textLabel;
         this.loadingCircle = loadingCircle;
-        this.box = box;
-
-        loadingCircle.setVisible(true);
+        this.resolvingConnectionsWS = resolvingConnectionsWS;
     }
+
+    public void setHeaders(HashMap<String, String> headers) {
+        for (Map.Entry<String, String> node : headers.entrySet()) {
+            this.addHeader(node.getKey(), node.getValue());
+        }
+     }
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
+        loadingCircle.setVisible(true);
         send("connect");
     }
 
@@ -81,11 +89,15 @@ public class CustomWebSocketHandler extends WebSocketClient {
 
     @Override
     public void onClose(int i, String s, boolean b) {
-
+        this.close();
+        resolvingConnectionsWS.connect();
     }
 
     @Override
     public void onError(Exception e) {
-
+        this.close();
+        resolvingConnectionsWS.connect();
+        System.out.println("ВС для отслеживания включен");
     }
+
 }
