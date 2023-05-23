@@ -32,7 +32,6 @@ public abstract class Manager extends Controller {
     protected ImageView loadingCircle2;
     @FXML
     protected HBox serviceBar;
-
     @FXML
     protected Pane connectionWindowPane;
     @FXML
@@ -45,6 +44,7 @@ public abstract class Manager extends Controller {
     protected Pane fullDeviceDescriptionPane;
     @FXML
     protected Pane introDeviceDescriptionPane;
+    @FXML HBox fullDescriptionHeader;
     @FXML
     protected ListView<DeviceDefinition> introDeviceInfo;
     protected ConnectionWebSocket connectionWS;
@@ -55,8 +55,9 @@ public abstract class Manager extends Controller {
 
     @FXML
     protected void findDeviceBtnClicked() {
+        if (fullDeviceDescriptionPane.isVisible()) return;
+
         infoTextLabel.setText("");
-        setOnCloseOp();
 
         connectionWindowPane.setVisible(!isConnectionWindowOpen);
         connectionWindowVBox.setVisible(!isConnectionWindowOpen);
@@ -75,10 +76,8 @@ public abstract class Manager extends Controller {
 
     @FXML
     protected void findNewDevice(){
-
         if (resolvingConnectionsWS != null) {
             resolvingConnectionsWS.close();
-            resolvingConnectionsWS = null;
         }
 
         String userUUID = uuidTextLabel.getText();
@@ -93,8 +92,19 @@ public abstract class Manager extends Controller {
         }
     }
 
-    private void setOnCloseOp() {
-        getThisStage().setOnHidden(event -> shutdown());
+
+    protected void setOnCloseOperation() {
+        new Thread(() -> {
+            while(true) {
+                try {
+                    Stage stage = getThisStage();
+                    if (stage != null) {
+                        stage.setOnHidden(event -> shutdown());
+                        break;
+                    }
+                } catch (NullPointerException ignored) {}
+            }
+        }).start();
     }
 
 
@@ -113,16 +123,36 @@ public abstract class Manager extends Controller {
 
             if (alert.getResult() == ButtonType.YES) {
                 AuthenticateModel.getInstance().setIsAuthorized(false);
+                getThisStage().close();
                 homeScene();
             } else {
+                getThisStage().close();
                 serviceUser();
             }
         }
     }
 
-    protected void changeFullDescriptionPaneVisibility(boolean state) {
+    @FXML
+    protected void backButtonClicked() {
+        setFullDescPaneVisible(false);
+    }
+
+    protected void setIntroDeviceDescPaneDisabled(boolean state) {
+        introDeviceDescriptionPane.getChildren().forEach(it-> it.setDisable(state));
+    }
+
+    protected void setFullDescPaneVisible (boolean state) {
+        setIntroDeviceDescPaneDisabled(state);
+
         fullDeviceDescriptionPane.setVisible(state);
-        fullDeviceDescriptionPane.getChildren().forEach(it-> it.setVisible(state));
+        fullDeviceDescriptionPane.getChildren().forEach(it -> {
+            it.setVisible(state);
+            if (it.equals(fullDescriptionHeader)) {
+                fullDescriptionHeader
+                        .getChildren()
+                        .forEach(other -> other.setVisible(state));
+            }
+        });
     }
 
     protected HashMap<String, String> getCommonWSHeaders() {
@@ -168,8 +198,8 @@ public abstract class Manager extends Controller {
     }
 
     public void shutdown() {
-
-        System.out.println("GOODBYE");
+        if (resolvingConnectionsWS != null) resolvingConnectionsWS.close();
+        if (connectionWS != null)           connectionWS.close();
     }
 
 }

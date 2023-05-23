@@ -41,7 +41,6 @@ public class ResolvingConnectionsWebSocket extends WebSocketClient {
 
     @Override
     public void onMessage(String s) {
-        System.out.println(s);
         switch(s) {
             case "1" ->  sendWithDelay("0", null);
             case "Submitting request received" -> {
@@ -66,13 +65,11 @@ public class ResolvingConnectionsWebSocket extends WebSocketClient {
 
     @Override
     public void onClose(int i, String s, boolean b) {
-        System.out.println(s);
         this.close();
     }
 
     @Override
     public void onError(Exception e) {
-        System.out.println(e);
         this.close();
     }
 }

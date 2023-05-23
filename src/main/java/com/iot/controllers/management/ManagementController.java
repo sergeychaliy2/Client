@@ -9,10 +9,7 @@ import com.iot.model.utils.ServerResponse;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -47,10 +44,13 @@ public class ManagementController extends Manager {
         loadingCircle2.setVisible(true);
         checkServerResponseIs();
 
+        setOnCloseOperation();
     }
 
     private void collectDevicesToList(JSONArray arr) {
         ObservableList<DeviceDefinition> devices = FXCollections.observableArrayList();
+
+        short counter = 0;
 
         for (Object elem : arr) {
             JSONObject obj = (JSONObject) elem;
@@ -58,7 +58,8 @@ public class ManagementController extends Manager {
                     new DeviceDefinition(
                             (long) obj.get("deviceId"),
                             obj.get("deviceName").toString(),
-                            obj.get("deviceDescription").toString()
+                            obj.get("deviceDescription").toString(),
+                            ++counter
                     )
             );
         }
@@ -91,7 +92,10 @@ public class ManagementController extends Manager {
                         try {
                             if (resultObject.get("message").toString().equals(ACCESS_TOKEN_WAS_UPDATED)) {
                                 tokenExpiredRequestsCounter = 0;
-                                Platform.runLater(this::serviceUser);
+                                Platform.runLater(()-> {
+                                    getThisStage().close();
+                                    serviceUser();
+                                });
                                 return;
                             }
                         } catch(Exception ignore) {}
@@ -116,7 +120,7 @@ public class ManagementController extends Manager {
                             Platform.runLater(() -> {
                                 sensorsList.setItems(list);
                                 deviceName.setText(obj.get("deviceName").toString());
-                                changeFullDescriptionPaneVisibility(true);
+                                setFullDescPaneVisible(true);
                             });
                         }
                     }
@@ -136,13 +140,17 @@ public class ManagementController extends Manager {
                     if (message == null) {
                         if (++tokenExpiredRequestsCounter == 2) {
                             AuthenticateModel.getInstance().setIsAuthorized(false);
-                            Platform.runLater(this::authorizationScene);
+
+                            Platform.runLater(()-> {
+                                getThisStage().close();
+                                authorizationScene();
+                            });
+
                             return;
                         }
                         HttpClient.execute(null, Endpoints.UPDATE_TOKEN, HttpClient.HttpMethods.GET);
                         checkServerResponseIs();
 
-                        System.out.println(tokenExpiredRequestsCounter);
                     } else {
                         Platform.runLater(() ->
                                 AlertDialog.alertOf(EXCEPTION, "Ошибка", message).showAndWait()
@@ -154,5 +162,4 @@ public class ManagementController extends Manager {
             throw new RuntimeException(e);
         }
     }
-
 }

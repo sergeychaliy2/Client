@@ -58,7 +58,7 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <Pane fx:id="connectionWindowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="583.0" style="-fx-background-color: CFCFCF; -fx-background-radius: 10px;" visible="false">
+                        <Pane fx:id="connectionWindowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="583.0" style="-fx-background-color: CFCFCF; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px; -fx-border-width: 1;" visible="false">
                            <children>
                               <VBox fx:id="connectionWindowVBox" layoutX="2.0" layoutY="2.0" prefHeight="475.0" prefWidth="581.0" style="-fx-background-radius: 10px;" visible="false">
                                  <children>
@@ -100,10 +100,23 @@
                               <Insets bottom="152.0" right="40.0" />
                            </StackPane.margin>
                         </Pane>
-                        <Pane fx:id="fullDeviceDescriptionPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="549.0" prefWidth="1099.0" style="-fx-background-color: CFCFCF;" visible="false">
+                        <Pane fx:id="fullDeviceDescriptionPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="549.0" prefWidth="1099.0" style="-fx-background-color: CFCFCF; -fx-background-radius: 10;" visible="false">
                            <children>
+                              <HBox fx:id="fullDescriptionHeader" prefHeight="100.0" prefWidth="1099.0" visible="false">
+                                 <children>
+                                    <ImageView fitHeight="63.0" fitWidth="82.0" onMouseClicked="#backButtonClicked" pickOnBounds="true" preserveRatio="true" translateX="10.0" translateY="20.0" visible="false">
+                                       <image>
+                                          <Image url="@../../../back.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="deviceName" prefHeight="63.0" prefWidth="983.0" style="-fx-font-size: 35;" translateY="20.0" visible="false">
+                                       <HBox.margin>
+                                          <Insets left="50.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <ListView fx:id="sensorsList" layoutY="95.0" prefHeight="454.0" prefWidth="1099.0" style="-fx-font-size: 25;" visible="false" />
-                              <Label fx:id="deviceName" layoutX="35.0" layoutY="14.0" prefHeight="63.0" prefWidth="1031.0" style="-fx-font-size: 35;" visible="false" />
                            </children></Pane>
                      </children>
                   </StackPane>

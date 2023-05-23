@@ -5,39 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b03da61a-a1d2-45c0-9401-bb6ad2b196e1" name="Changes" comment="&#10;added control to registration, combobox">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/service/ResolvingConnectionsWebSocket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/back.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/AuthorizationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/PasswordResetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/PasswordResetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/identities/RegistrationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/main/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/main/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/management/ManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/management/ManagementController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/controllers/management/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/controllers/management/Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/auth/AuthenticateModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/auth/AuthenticateModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/constants/Endpoints.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/constants/Endpoints.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/constants/HttpRequestTypes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/constants/Responses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/constants/Responses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/service/CustomWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/service/ConnectionWebSocket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/utils/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/utils/Configuration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/utils/HttpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/utils/HttpClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/utils/ServerRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/AuthorizationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/AuthorizationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/PasswordResetController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/PasswordResetController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/RegistrationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/identities/RegistrationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/main/MainController$ButtonsStyle$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/main/MainController$ButtonsStyle$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/main/MainController$ButtonsStyle$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/main/MainController$ButtonsStyle$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/main/MainController$ButtonsStyle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/main/MainController$ButtonsStyle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/main/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/main/MainController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/service/DeviceDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/service/DeviceDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iot/model/service/ResolvingConnectionsWebSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iot/model/service/ResolvingConnectionsWebSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Service.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/iot/scenes/Service.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/management/ManagementController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/management/ManagementController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/iot/controllers/management/Manager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/controllers/management/Manager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/auth/AuthenticateModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/auth/AuthenticateModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/constants/Endpoints.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/constants/Endpoints.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/constants/HttpRequestTypes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/constants/Responses$Socket.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/constants/Responses$Socket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/service/CustomWebSocketHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/utils/HttpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/utils/HttpClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/utils/HttpClientRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/utils/HttpClientRunner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/utils/ServerRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/model/service/ResolvingConnectionsWebSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/model/service/ResolvingConnectionsWebSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/iot/scenes/Service.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/iot/scenes/Service.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/temp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/temp.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,26 +48,30 @@
     </option>
   </component>
   <component name="ProjectId" id="2OPksvKLiJZT2GI7FgMCL2g6ob4" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/github/Client&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/github/Client",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\сергей\Documents\GitHub\My_Client\src\main\resources\com\iot\scenes" />
@@ -159,6 +141,7 @@
       <workItem from="1684671234511" duration="3425000" />
       <workItem from="1684675741559" duration="6610000" />
       <workItem from="1684759618386" duration="12789000" />
+      <workItem from="1684846061074" duration="6547000" />
     </task>
     <task id="LOCAL-00001" summary="&#10;added control to registration, combobox">
       <created>1681936929781</created>
@@ -174,6 +157,7 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="&#10;added control to registration, combobox" />
     <option name="LAST_COMMIT_MESSAGE" value="&#10;added control to registration, combobox" />
   </component>
@@ -187,7 +171,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/iot/controllers/management/ManagementController.java</url>
-          <line>70</line>
+          <line>71</line>
           <properties class="com.iot.controllers.management.ManagementController" method="transactServerResponse">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
