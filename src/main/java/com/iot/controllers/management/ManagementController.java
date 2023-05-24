@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -24,6 +25,20 @@ import static com.iot.model.utils.AlertDialog.CustomAlert.*;
 
 public class ManagementController extends Manager {
     private int tokenExpiredRequestsCounter = 0;
+
+    private void setOnCloseOperation() {
+        new Thread(() -> {
+            while(true) {
+                try {
+                    Stage stage = getThisStage();
+                    if (stage != null) {
+                        stage.setOnHidden(event -> disconnectSockets());
+                        break;
+                    }
+                } catch (NullPointerException ignored) {}
+            }
+        }).start();
+    }
 
     @FXML
     protected void initialize() {
@@ -120,6 +135,7 @@ public class ManagementController extends Manager {
                             Platform.runLater(() -> {
                                 sensorsList.setItems(list);
                                 deviceName.setText(obj.get("deviceName").toString());
+                                setFullDescPaneSettings();
                                 setFullDescPaneVisible(true);
                             });
                         }

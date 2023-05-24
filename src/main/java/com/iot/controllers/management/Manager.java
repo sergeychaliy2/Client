@@ -16,11 +16,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import org.json.simple.JSONObject;
 
 import java.util.HashMap;
 
 import static com.iot.model.constants.Endpoints.DEVICE_GETTING_UPDATES;
+import static com.iot.model.constants.Endpoints.STATE_CHANGE;
 import static com.iot.model.constants.Responses.Socket.UUID_FORMAT_IS_NOT_CORRECT;
 
 public abstract class Manager extends Controller {
@@ -44,14 +45,31 @@ public abstract class Manager extends Controller {
     protected Pane fullDeviceDescriptionPane;
     @FXML
     protected Pane introDeviceDescriptionPane;
-    @FXML HBox fullDescriptionHeader;
+    @FXML
+    protected Pane changingStatePane;
+    @FXML
+    protected HBox fullDescriptionHeader;
+    @FXML
+    protected Pane changingStateNumberGroup;
+    @FXML
+    protected Pane changingStateLogicGroup;
     @FXML
     protected ListView<DeviceDefinition> introDeviceInfo;
+    @FXML
+    protected CheckBox sensorOnCheckBox;
+    @FXML
+    protected CheckBox sensorOffCheckBox;
+    @FXML
+    protected Label sensorLogicStateLabel;
+    @FXML
+    protected TextField changingNumericStateField;
     protected ConnectionWebSocket connectionWS;
     protected ResolvingConnectionsWebSocket resolvingConnectionsWS;
     private boolean isConnectionWindowOpen = false;
     protected boolean isArrayWaiting = false;
     protected static final String exitFromProfileText = "Выход";
+    private static final String sensorWillOff = "Датчик будет выключен";
+    private static final String sensorWillOn = "Датчик будет включен";
 
     @FXML
     protected void findDeviceBtnClicked() {
@@ -93,21 +111,6 @@ public abstract class Manager extends Controller {
     }
 
 
-    protected void setOnCloseOperation() {
-        new Thread(() -> {
-            while(true) {
-                try {
-                    Stage stage = getThisStage();
-                    if (stage != null) {
-                        stage.setOnHidden(event -> shutdown());
-                        break;
-                    }
-                } catch (NullPointerException ignored) {}
-            }
-        }).start();
-    }
-
-
 
     @FXML
     protected void selectComboBox() {
@@ -133,26 +136,113 @@ public abstract class Manager extends Controller {
     }
 
     @FXML
-    protected void backButtonClicked() {
+    protected void sensorOnCheckBoxClicked() {
+        if (sensorOffCheckBox.isSelected()) {
+            sensorOffCheckBox.setSelected(false);
+        }
+        sensorLogicStateLabel.setText(sensorWillOn);
+    }
+
+    @FXML
+    protected void sensorOffCheckBoxClicked() {
+        if (sensorOnCheckBox.isSelected()) {
+            sensorOnCheckBox.setSelected(false);
+        }
+        sensorLogicStateLabel.setText(sensorWillOff);
+    }
+
+
+    @FXML
+    protected void fullDescPaneBackBtnClicked() {
         setFullDescPaneVisible(false);
     }
 
+    @FXML
+    protected void changeStateBtnClicked() {
+        String state = null;
+
+        if (changingStateLogicGroup.isVisible()) {
+            if (!sensorOffCheckBox.isSelected() && !sensorOnCheckBox.isSelected()) {
+                AlertDialog.alertOf(
+                        AlertDialog.CustomAlert.EXCEPTION,
+                        "Ошибка",
+                        "Выберите хотя бы одно состояние"
+                ).showAndWait();
+                return;
+            }
+            if (sensorOnCheckBox.isSelected())       state = "true";
+            else if (sensorOffCheckBox.isSelected()) state = "false";
+        } else {
+            //todo it for number
+            try {
+                state = String.valueOf(
+                        Integer.parseInt(changingNumericStateField.getText())
+                );
+            } catch (NumberFormatException e) {
+                AlertDialog.alertOf(
+                        AlertDialog.CustomAlert.EXCEPTION,
+                        "Ошибка",
+                        "Состояние датчика может быть только числовым"
+                ).showAndWait();
+                return;
+            }
+        }
+        DetailedDevice device = sensorsList.getSelectionModel().getSelectedItem();
+        System.out.println(device.deviceId());
+
+        JSONObject obj = new JSONObject();
+        obj.put("sensor", device.sensorName());
+        obj.put("state", state);
+
+        HttpClient.execute(obj, String.format(STATE_CHANGE, device.deviceId()), HttpClient.HttpMethods.PUT);
+        checkServerResponseIs();
+    }
+
+    @FXML
+    protected void changingStateBackBtnClicked() {
+        setChangingStatePaneVisible(false, null);
+        setFullDescPaneDisable(false);
+    }
+
     protected void setIntroDeviceDescPaneDisabled(boolean state) {
-        introDeviceDescriptionPane.getChildren().forEach(it-> it.setDisable(state));
+        introDeviceDescriptionPane.setDisable(state);
     }
 
     protected void setFullDescPaneVisible (boolean state) {
         setIntroDeviceDescPaneDisabled(state);
-
         fullDeviceDescriptionPane.setVisible(state);
-        fullDeviceDescriptionPane.getChildren().forEach(it -> {
-            it.setVisible(state);
-            if (it.equals(fullDescriptionHeader)) {
-                fullDescriptionHeader
-                        .getChildren()
-                        .forEach(other -> other.setVisible(state));
+    }
+
+    private void setFullDescPaneDisable(boolean state) {
+        fullDeviceDescriptionPane.setDisable(state);
+    }
+
+    protected void setFullDescPaneSettings() {
+        sensorsList.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                setFullDescPaneDisable(true);
+                DetailedDevice device = sensorsList.getSelectionModel().getSelectedItem();
+                setChangingStatePaneVisible(true, device.sensorState());
             }
         });
+    }
+
+    protected void setChangingStatePaneVisible(boolean state, String sensorType) {
+        changingStatePane.setVisible(state);
+
+        if (sensorType == null) {
+            changingStateNumberGroup.setVisible(state);
+            changingStateLogicGroup.setVisible(state);
+            return;
+        }
+
+        try {
+            Integer.parseInt(sensorType);
+            changingStateNumberGroup.setVisible(state);
+        } catch (NumberFormatException e) {
+            changingStateLogicGroup.setVisible(state);
+        }
+
     }
 
     protected HashMap<String, String> getCommonWSHeaders() {
@@ -160,6 +250,7 @@ public abstract class Manager extends Controller {
         headers.put("Authorization", String.format("Bearer %s", AuthenticateModel.getInstance().getAccessToken()));
         return headers;
     }
+
     private void setUpConnectionWebSocket(String userUUID) {
         if (resolvingConnectionsWS == null)
             throw new RuntimeException("Web socket instance must not be null");
@@ -197,7 +288,7 @@ public abstract class Manager extends Controller {
         sensorsList.setFixedCellSize(100.0);
     }
 
-    public void shutdown() {
+    public void disconnectSockets() {
         if (resolvingConnectionsWS != null) resolvingConnectionsWS.close();
         if (connectionWS != null)           connectionWS.close();
     }
