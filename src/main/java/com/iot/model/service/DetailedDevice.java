@@ -5,8 +5,7 @@ public record DetailedDevice (long deviceId, String sensorName,  String sensorSt
 
     @Override
     public String toString() {
-        int spaces = 15;
-        return String.format("%s%s", sensorName + " ".repeat(spaces - sensorName.length()), sensorState);
+        return String.format("%s,    %s", sensorName, sensorState);
     }
 
 }

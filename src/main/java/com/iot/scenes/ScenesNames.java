@@ -6,5 +6,6 @@ public enum ScenesNames
     CONNECTION,
     AUTHORIZATION,
     RESET_PASSWORD,
-    SERVICE
+    SERVICE,
+    PERSONAL_DATA
 }

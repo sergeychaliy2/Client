@@ -14,5 +14,6 @@ public final class Endpoints {
     public static final String ALL_DEVICES = "/management/user/devices";
     public static final String ONE_DEVICE = "/management/user/devices/%d";
     public static final String STATE_CHANGE = "/management/user/devices/%d/change";
+    public static final String CHANGE_USER_DATA = "/account/change";
 //    public static final String RESET_STATUS = "/management/user/devices/{id}/reset";
 }

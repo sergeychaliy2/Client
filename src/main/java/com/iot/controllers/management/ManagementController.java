@@ -43,7 +43,7 @@ public class ManagementController extends Manager {
     @FXML
     protected void initialize() {
         if (!AuthenticateModel.getInstance().getIsAuthorized()) {
-            //todo dialog window
+            AlertDialog.alertOf(EXCEPTION, "Уведомление", "Вы не вошли в аккаунт");
             homeScene();
         }
 
@@ -51,7 +51,7 @@ public class ManagementController extends Manager {
         resolvingConnectionsWS.connect();
 
         userComboBox.setPromptText(AuthenticateModel.getInstance().getUserLogin());
-        userComboBox.setItems(FXCollections.singletonObservableList(exitFromProfileText));
+        userComboBox.setItems(FXCollections.observableArrayList(settingsReset, changeUserData, exitFromProfileText));
 
         setUpListViewSettings();
         isArrayWaiting = true;
@@ -129,7 +129,7 @@ public class ManagementController extends Manager {
                                     list.add(new DetailedDevice(
                                             (long) obj.get("deviceId"),
                                             key,
-                                            sensors.get(key).toString()
+                                            translateState(sensors.get(key).toString())
                                     )));
 
                             Platform.runLater(() -> {
@@ -153,21 +153,8 @@ public class ManagementController extends Manager {
                         default -> throw new RuntimeException("Unknown error");
                     };
 
-                    if (message == null) {
-                        if (++tokenExpiredRequestsCounter == 2) {
-                            AuthenticateModel.getInstance().setIsAuthorized(false);
-
-                            Platform.runLater(()-> {
-                                getThisStage().close();
-                                authorizationScene();
-                            });
-
-                            return;
-                        }
-                        HttpClient.execute(null, Endpoints.UPDATE_TOKEN, HttpClient.HttpMethods.GET);
-                        checkServerResponseIs();
-
-                    } else {
+                    if (message == null) checkIsTokenExpired(tokenExpiredRequestsCounter);
+                    else {
                         Platform.runLater(() ->
                                 AlertDialog.alertOf(EXCEPTION, "Ошибка", message).showAndWait()
                         );

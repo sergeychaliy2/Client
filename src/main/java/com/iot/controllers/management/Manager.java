@@ -13,7 +13,6 @@ import com.iot.model.utils.HttpClient;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.json.simple.JSONObject;
@@ -32,8 +31,6 @@ public abstract class Manager extends Controller {
     @FXML
     protected ImageView loadingCircle2;
     @FXML
-    protected HBox serviceBar;
-    @FXML
     protected Pane connectionWindowPane;
     @FXML
     protected ComboBox<String> userComboBox;
@@ -47,8 +44,6 @@ public abstract class Manager extends Controller {
     protected Pane introDeviceDescriptionPane;
     @FXML
     protected Pane changingStatePane;
-    @FXML
-    protected HBox fullDescriptionHeader;
     @FXML
     protected Pane changingStateNumberGroup;
     @FXML
@@ -70,6 +65,8 @@ public abstract class Manager extends Controller {
     protected static final String exitFromProfileText = "Выход";
     private static final String sensorWillOff = "Датчик будет выключен";
     private static final String sensorWillOn = "Датчик будет включен";
+    protected static final String changeUserData = "Изменить свои данные";
+    protected static final String settingsReset = "Сбросить настройки";
 
     @FXML
     protected void findDeviceBtnClicked() {
@@ -114,25 +111,43 @@ public abstract class Manager extends Controller {
 
     @FXML
     protected void selectComboBox() {
-        String str = userComboBox.getSelectionModel().getSelectedItem();
+        String chosenElement = userComboBox.getSelectionModel().getSelectedItem();
 
-        if (str.equals(exitFromProfileText)) {
-            Alert alert = AlertDialog.alertOf (
-                    AlertDialog.CustomAlert.CONFIRMATION,
-                    "Подтверждение",
-                    "Вы хотите выйти?"
-            );
-            alert.showAndWait();
+        switch (chosenElement) {
+            case exitFromProfileText -> {
+                Alert alert = AlertDialog.alertOf (
+                        AlertDialog.CustomAlert.CONFIRMATION,
+                        "Подтверждение",
+                        "Вы хотите выйти?"
+                );
+                alert.showAndWait();
 
-            if (alert.getResult() == ButtonType.YES) {
-                AuthenticateModel.getInstance().setIsAuthorized(false);
-                getThisStage().close();
-                homeScene();
-            } else {
-                getThisStage().close();
-                serviceUser();
+                if (alert.getResult() == ButtonType.YES) {
+                    AuthenticateModel.getInstance().setIsAuthorized(false);
+                    getThisStage().close();
+                    homeScene();
+                } else {
+                    getThisStage().close();
+                    serviceUser();
+                }
             }
+            case settingsReset -> {
+                disconnectSockets();
+                setUpResolvingConnectionWebSocket();
+                resolvingConnectionsWS.connect();
+                AlertDialog.alertOf(
+                        AlertDialog.CustomAlert.INFORMATION,
+                        "Уведомление",
+                        "Настройки были сброшены"
+                ).showAndWait();
+            }
+            case changeUserData -> {
+                getThisStage().close();
+                personalDataScene();
+            }
+
         }
+
     }
 
     @FXML
@@ -173,7 +188,6 @@ public abstract class Manager extends Controller {
             if (sensorOnCheckBox.isSelected())       state = "true";
             else if (sensorOffCheckBox.isSelected()) state = "false";
         } else {
-            //todo it for number
             try {
                 state = String.valueOf(
                         Integer.parseInt(changingNumericStateField.getText())
@@ -245,7 +259,7 @@ public abstract class Manager extends Controller {
 
     }
 
-    protected HashMap<String, String> getCommonWSHeaders() {
+    private HashMap<String, String> getCommonWSHeaders() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Authorization", String.format("Bearer %s", AuthenticateModel.getInstance().getAccessToken()));
         return headers;
@@ -256,19 +270,19 @@ public abstract class Manager extends Controller {
             throw new RuntimeException("Web socket instance must not be null");
 
         connectionWS = new ConnectionWebSocket(
-                Configuration.generate(false, Endpoints.APP_CONNECTION),
+                Configuration.generateURL(false, Endpoints.APP_CONNECTION),
                 userUUID,
                 connectionWindowPane,
                 infoTextLabel,
                 loadingCircle,
-                resolvingConnectionsWS
+                resolvingConnectionsWS,
+                getCommonWSHeaders()
         );
-        connectionWS.setHeaders(getCommonWSHeaders());
     }
 
     protected void setUpResolvingConnectionWebSocket() {
         resolvingConnectionsWS = new ResolvingConnectionsWebSocket(
-                Configuration.generate(false, DEVICE_GETTING_UPDATES)
+                Configuration.generateURL(false, DEVICE_GETTING_UPDATES)
         );
         resolvingConnectionsWS.setHeaders(getCommonWSHeaders());
     }
@@ -287,8 +301,15 @@ public abstract class Manager extends Controller {
 
         sensorsList.setFixedCellSize(100.0);
     }
-
-    public void disconnectSockets() {
+    protected String translateState(String state) {
+        try {
+            Integer.parseInt(state);
+            return state;
+        } catch (NumberFormatException e) {
+            return state.equalsIgnoreCase("true") ? "Включен" : "Выключен";
+        }
+    }
+    protected void disconnectSockets() {
         if (resolvingConnectionsWS != null) resolvingConnectionsWS.close();
         if (connectionWS != null)           connectionWS.close();
     }

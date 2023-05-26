@@ -31,7 +31,7 @@ public final class HttpClient {
     }
 
     public static void execute(JSONObject obj, String endPoint, HttpMethods type) {
-        final String path = Configuration.generate(true, endPoint);
+        final String path = Configuration.generateURL(true, endPoint);
         Pair<String, String> authPair = getAuthHeader(true);
         HttpRequestBase method;
 

@@ -51,4 +51,11 @@ public final class Responses {
         public static final String DEVICE_IS_NOT_LISTENING = "Устройство не присоединено к серверу";
         public static final String ACCESS_TOKEN_WAS_UPDATED = "Access token was updated";
     }
+    public static final class PersonalData {
+        private PersonalData() {}
+
+        public static final String USER_WAS_NOT_FOUND = "Пользователь не был найден";
+        public static final String PASSWORD_IS_NOT_EQUALS_TO_EACH_OTHER = "Пароли не равны друг другу";
+        public static final String DATA_WAS_SUCCESSFULLY_CHANGED = "Data was successfully changed";
+    }
 }

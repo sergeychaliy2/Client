@@ -25,7 +25,8 @@ public class ConnectionWebSocket extends WebSocketClient {
     public ConnectionWebSocket(String path, String uuid,
                                Pane box,  Text textLabel,
                                ImageView loadingCircle,
-                               ResolvingConnectionsWebSocket resolvingConnectionsWS)
+                               ResolvingConnectionsWebSocket resolvingConnectionsWS,
+                               HashMap<String, String> headers)
     {
         super(URI.create(path));
         this.uuid = uuid;
@@ -33,9 +34,10 @@ public class ConnectionWebSocket extends WebSocketClient {
         this.textLabel = textLabel;
         this.loadingCircle = loadingCircle;
         this.resolvingConnectionsWS = resolvingConnectionsWS;
+        setHeaders(headers);
     }
 
-    public void setHeaders(HashMap<String, String> headers) {
+    private void setHeaders(HashMap<String, String> headers) {
         for (Map.Entry<String, String> node : headers.entrySet()) {
             this.addHeader(node.getKey(), node.getValue());
         }

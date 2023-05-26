@@ -1,10 +1,13 @@
 package com.iot.controllers;
 
 import com.iot.model.auth.AuthenticateModel;
+import com.iot.model.constants.Endpoints;
 import com.iot.model.utils.AlertDialog;
+import com.iot.model.utils.HttpClient;
 import com.iot.model.utils.ServerResponse;
 import com.iot.scenes.SceneChanger;
 import com.iot.scenes.ScenesNames;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -41,8 +44,7 @@ public abstract class Controller {
     protected void transactServerResponse(ServerResponse response) {
         throw new RuntimeException("Must be overrided");
     }
-
-
+    protected void personalDataScene() { changeScene(PERSONAL_DATA); }
     @FXML
     protected void homeScene() {
         changeScene(MAIN);
@@ -92,5 +94,19 @@ public abstract class Controller {
                 }
             }
         }).start();
+    }
+    protected void checkIsTokenExpired(int attempts) {
+        if (++attempts == 2) {
+            AuthenticateModel.getInstance().setIsAuthorized(false);
+
+            Platform.runLater(()-> {
+                getThisStage().close();
+                authorizationScene();
+            });
+
+            return;
+        }
+        HttpClient.execute(null, Endpoints.UPDATE_TOKEN, HttpClient.HttpMethods.GET);
+        checkServerResponseIs();
     }
 }
