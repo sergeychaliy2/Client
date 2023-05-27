@@ -43,7 +43,7 @@ public class ManagementController extends Manager {
     @FXML
     protected void initialize() {
         if (!AuthenticateModel.getInstance().getIsAuthorized()) {
-            AlertDialog.alertOf(EXCEPTION, "Уведомление", "Вы не вошли в аккаунт");
+            AlertDialog.alertOf(EXCEPTION, "Уведомление", YOU_ARE_NOT_LOGIN_IN);
             homeScene();
         }
 
@@ -100,7 +100,7 @@ public class ManagementController extends Manager {
                         }
 
                         Platform.runLater(() ->
-                                AlertDialog.alertOf(INFORMATION, "Информация", responseMessage).showAndWait()
+                                AlertDialog.alertOf(INFORMATION, "Уведомление", responseMessage).showAndWait()
                         );
 
                     } catch (Exception e) {
@@ -147,6 +147,7 @@ public class ManagementController extends Manager {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
                     String message = switch (resultObject.get("code").toString()) {
                         case "ET01" -> null;
+                        case "EE02" -> SENSOR_WAS_NOT_FOUND;
                         case "EE04" -> USER_OR_DEVICE_WAS_NOT_FOUND;
                         case "EE06" -> DEVICE_STATE_WAS_NOT_UPDATED;
                         case "EO01" -> DEVICE_IS_NOT_LISTENING;
@@ -156,7 +157,7 @@ public class ManagementController extends Manager {
                     if (message == null) checkIsTokenExpired(tokenExpiredRequestsCounter);
                     else {
                         Platform.runLater(() ->
-                                AlertDialog.alertOf(EXCEPTION, "Ошибка", message).showAndWait()
+                                AlertDialog.alertOf(EXCEPTION, "Уведомление", message).showAndWait()
                         );
                     }
                 }

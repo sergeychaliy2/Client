@@ -2,8 +2,6 @@ package com.iot.controllers.management;
 
 import com.iot.controllers.Controller;
 import com.iot.model.auth.AuthenticateModel;
-import com.iot.model.constants.Endpoints;
-import com.iot.model.utils.Configuration;
 import com.iot.model.utils.HttpClient;
 import com.iot.model.utils.ServerResponse;
 import javafx.application.Platform;
@@ -24,7 +22,6 @@ public class PersonalDataController extends Controller {
 
     @FXML private TextField repeatPasswordTField;
     @FXML private TextField passwordTField;
-
     private int tokenExpiredRequestsCounter = 0;
 
 
@@ -74,7 +71,7 @@ public class PersonalDataController extends Controller {
             return;
         }
 
-        if (!patternPassword.matcher(passwordTField.getText()).matches()) {
+        if (!isPasswordValid(passwordTField.getText())) {
             infoTextLabel.setText(PASSWORD_FORMAT_IS_INCORRECT);
             return;
         }

@@ -7,7 +7,6 @@ import static com.iot.model.utils.AlertDialog.CustomAlert.CONFIRMATION;
 import static com.iot.model.utils.AlertDialog.CustomAlert.EXCEPTION;
 
 public final class AlertDialog {
-
     private final static Alert exceptionAlert = new Alert(Alert.AlertType.ERROR);
     private final static Alert informationAlert = new Alert(Alert.AlertType.INFORMATION);
     private final static Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION, "%s", ButtonType.YES, ButtonType.NO);

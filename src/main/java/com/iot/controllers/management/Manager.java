@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import static com.iot.model.constants.Endpoints.DEVICE_GETTING_UPDATES;
 import static com.iot.model.constants.Endpoints.STATE_CHANGE;
+import static com.iot.model.constants.Responses.Service.*;
 import static com.iot.model.constants.Responses.Socket.UUID_FORMAT_IS_NOT_CORRECT;
 
 public abstract class Manager extends Controller {
@@ -71,6 +72,7 @@ public abstract class Manager extends Controller {
     @FXML
     protected void findDeviceBtnClicked() {
         if (fullDeviceDescriptionPane.isVisible()) return;
+        if (loadingCircle.isVisible()) loadingCircle.setVisible(false);
 
         infoTextLabel.setText("");
 
@@ -91,8 +93,9 @@ public abstract class Manager extends Controller {
 
     @FXML
     protected void findNewDevice(){
-        if (resolvingConnectionsWS != null) {
+        if (resolvingConnectionsWS.isOpen()) {
             resolvingConnectionsWS.close();
+            System.out.println("Закрыт");
         }
 
         String userUUID = uuidTextLabel.getText();
@@ -117,8 +120,8 @@ public abstract class Manager extends Controller {
             case exitFromProfileText -> {
                 Alert alert = AlertDialog.alertOf (
                         AlertDialog.CustomAlert.CONFIRMATION,
-                        "Подтверждение",
-                        "Вы хотите выйти?"
+                        "Уведомление",
+                        EXIT_SUGGESTION
                 );
                 alert.showAndWait();
 
@@ -138,7 +141,7 @@ public abstract class Manager extends Controller {
                 AlertDialog.alertOf(
                         AlertDialog.CustomAlert.INFORMATION,
                         "Уведомление",
-                        "Настройки были сброшены"
+                        SETTINGS_WAS_RESET
                 ).showAndWait();
             }
             case changeUserData -> {
@@ -180,8 +183,8 @@ public abstract class Manager extends Controller {
             if (!sensorOffCheckBox.isSelected() && !sensorOnCheckBox.isSelected()) {
                 AlertDialog.alertOf(
                         AlertDialog.CustomAlert.EXCEPTION,
-                        "Ошибка",
-                        "Выберите хотя бы одно состояние"
+                        "Уведомление",
+                        AT_LEAST_ONE_STATE_MUST_BE_USING
                 ).showAndWait();
                 return;
             }
@@ -195,13 +198,14 @@ public abstract class Manager extends Controller {
             } catch (NumberFormatException e) {
                 AlertDialog.alertOf(
                         AlertDialog.CustomAlert.EXCEPTION,
-                        "Ошибка",
-                        "Состояние датчика может быть только числовым"
+                        "Уведомление",
+                        SENSOR_STATE_MUST_BE_ONLY_NUMERIC
                 ).showAndWait();
                 return;
             }
         }
         DetailedDevice device = sensorsList.getSelectionModel().getSelectedItem();
+        System.out.println(device.sensorName());
         System.out.println(device.deviceId());
 
         JSONObject obj = new JSONObject();

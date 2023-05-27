@@ -14,8 +14,6 @@
         <junit.version>5.8.2</junit.version>
     </properties>
 
-
-
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -56,6 +54,8 @@
             <version>1.5.3</version>
         </dependency>
     </dependencies>
+
+
 
     <build>
         <plugins>

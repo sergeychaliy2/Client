@@ -18,11 +18,10 @@ public final class Responses {
         public static final String CLIENT_IS_NOT_AUTHENTICATED = "Сначала пройдите верификацию по коду подтверждения";
         public static final String PASSWORD_IS_NOT_CORRECT = "Указан неверный пароль";
         public static final String NO_USER = "Пользователь не найден";
-        public static final String ERROR_AUTHORIZED = "Ошибка авторизации";
+        public static final String ERROR_AUTHORIZED = "Указаны недействительные данные";
         public static final String VERIFICATION_CODE_WAS_SENT = "Код был отправлен";
         public static final String VERIFICATION_CODE_SENT = "Verify code was sent";
         public static final String VERIFICATION_CODE_IS_RIGHT = "Код подтверждения верен";
-        public static final String SUCCESSFULLY_REGISTRATION = "Регистрация успешно пройдена";
         public static final String RESET_CODE_WAS_SENT = "Код сброса пароля был отправлен";
         public static final String RESET_CODE_IS_RIGHT = "Код сброса пароля верен";
         public static final String DATA_CHANGED = "Данные были успешно изменены";
@@ -47,9 +46,15 @@ public final class Responses {
         public static final String DEVICE_LISTENING_STATE_WAS_RESET = "Device listening state was reset";
         public static final String USER_OR_DEVICE_WAS_NOT_FOUND = "Пользователь или устройство не было найдено\n" +
                 "Обратитесь в техническую поддержку";
+        public static final String SENSOR_WAS_NOT_FOUND = "Датчик не был найден";
         public static final String DEVICE_STATE_WAS_NOT_UPDATED = "Состояние устройства не было обновлено";
         public static final String DEVICE_IS_NOT_LISTENING = "Устройство не присоединено к серверу";
         public static final String ACCESS_TOKEN_WAS_UPDATED = "Access token was updated";
+        public static final String YOU_ARE_NOT_LOGIN_IN = "Вы не вошли в аккаунт";
+        public static final String SETTINGS_WAS_RESET = "Настройки были сброшены";
+        public static final String EXIT_SUGGESTION = "Вы хотите выйти?";
+        public static final String AT_LEAST_ONE_STATE_MUST_BE_USING = "Вам необходимо выбрать хотя бы одно состояние перед подтверждением";
+        public static final String SENSOR_STATE_MUST_BE_ONLY_NUMERIC = "Состояние датчика может быть только числовым";
     }
     public static final class PersonalData {
         private PersonalData() {}

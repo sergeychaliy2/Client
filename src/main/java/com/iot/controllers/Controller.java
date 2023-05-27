@@ -9,10 +9,12 @@ import com.iot.scenes.SceneChanger;
 import com.iot.scenes.ScenesNames;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.iot.scenes.ScenesNames.*;
@@ -23,10 +25,22 @@ public abstract class Controller {
     @FXML
     protected ImageView loadingCircle;
 
-    protected static final Pattern patternLogin = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+    private static final Pattern patternLogin = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
             "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-    protected static final Pattern patternPassword = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,49}$");
-    protected static final Pattern patternCode = Pattern.compile("\\d{6}$");
+    private static final Pattern patternPassword = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,49}$");
+    private static final Pattern patternCode = Pattern.compile("\\d{6}$");
+
+    enum ButtonsStyle
+    {
+        ON ("-fx-background-color:  #ffd596; -fx-border-color: gray; -fx-background-radius: 10; -fx-border-radius: 10;"),
+        OFF("-fx-background-color:  #D9D9D9;  -fx-border-color: gray; -fx-background-radius: 10; -fx-border-radius: 10;");
+        private final String style;
+
+        ButtonsStyle (String style) {
+            this.style = style;
+        }
+
+    }
 
 
     protected Stage getThisStage() {
@@ -58,8 +72,19 @@ public abstract class Controller {
         }
         AlertDialog.alertOf (
                 AlertDialog.CustomAlert.EXCEPTION,
-                "Ошибка", "Вы не авторизованы"
+                "Уведомление", "Вы не авторизованы"
         ).showAndWait();
+    }
+
+    protected void setButtonsReactionOnAction(List<Button> btns) {
+        btns.forEach(btn -> {
+            btn.setOnMouseMoved(event -> {
+                btn.setStyle(ButtonsStyle.ON.style);
+            });
+            btn.setOnMouseExited(event -> {
+                btn.setStyle(ButtonsStyle.OFF.style);
+            });
+        });
     }
 
     @FXML
@@ -69,7 +94,7 @@ public abstract class Controller {
     @FXML
     protected void authorizationScene() { changeScene(AUTHORIZATION); }
 
-    protected void clearErrorLabel() {
+    protected void clearInfoLabel() {
         setInfoTextLabelText("");
     }
     protected void setInfoTextLabelText(String text) {
@@ -78,7 +103,6 @@ public abstract class Controller {
 
 
     protected void checkServerResponseIs() {
-
         new Thread(() -> {
             while(true) {
                 ServerResponse response = AuthenticateModel.getInstance().getResponse();
@@ -108,5 +132,17 @@ public abstract class Controller {
         }
         HttpClient.execute(null, Endpoints.UPDATE_TOKEN, HttpClient.HttpMethods.GET);
         checkServerResponseIs();
+    }
+
+    protected static boolean isLoginValid(String login) {
+        return patternLogin.matcher(login).matches();
+    }
+
+    protected static boolean isPasswordValid(String password) {
+        return patternPassword.matcher(password).matches();
+    }
+
+    protected static boolean isCodeValid(String code) {
+        return patternCode.matcher(code).matches();
     }
 }

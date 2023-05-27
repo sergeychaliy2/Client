@@ -11,17 +11,40 @@ import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import java.util.regex.Matcher;
+
+import java.util.List;
 
 import static com.iot.model.constants.Endpoints.SEND_CODE;
 
 public class PasswordResetController extends Controller {
-    @FXML private Button sendCodeResetPasswordBtn;
-    @FXML private Button codeVerifyBtn;
-    @FXML private Button passwordResetConfirmation;
-    @FXML private TextField codeResetPassword;
-    @FXML private TextField emailResetPassword;
-    @FXML private TextField newPasswordTextField;
+    @FXML private Button sendCodeBtn;
+    @FXML private Button resetConfirmationBtn;
+    @FXML private Button verifyCodeBtn;
+    @FXML private Button homeBtn;
+    @FXML private Button changeEmailAddressBtn;
+    @FXML private Button registrationBtn;
+    @FXML private TextField verifyCodeTField;
+    @FXML private TextField emailTField;
+    @FXML private TextField passwordTField;
+
+    @FXML
+    protected void initialize() {
+        setButtonsReactionOnAction(List.of(homeBtn, verifyCodeBtn,
+                registrationBtn, resetConfirmationBtn, sendCodeBtn, changeEmailAddressBtn));
+    }
+
+    @FXML
+    protected void changeEmailAddressBtnClicked() {
+        clearInfoLabel();
+
+        emailTField.setDisable(false);
+        sendCodeBtn.setDisable(false);
+
+        verifyCodeTField.clear();
+        verifyCodeBtn.setDisable(true);
+        passwordTField.setDisable(true);
+        resetConfirmationBtn.setDisable(true);
+    }
 
     @Override
     protected void transactServerResponse(ServerResponse response) {
@@ -33,26 +56,26 @@ public class PasswordResetController extends Controller {
                     String responseMessage = resultObject.get("msg").toString();
 
                     if (responseMessage.equals(Responses.Authorization.VERIFICATION_CODE_SENT)) {
-                        emailResetPassword.setDisable(true);
-                        emailResetPassword.setOpacity(0.5);
+                        sendCodeBtn.setDisable(true);
+                        emailTField.setDisable(true);
+                        verifyCodeTField.setDisable(false);
+                        verifyCodeBtn.setDisable(false);
+                        changeEmailAddressBtn.setDisable(false);
+
                         setInfoTextLabelText(Responses.Authorization.RESET_CODE_WAS_SENT);
-                        passwordResetConfirmation.setVisible(true);
-                        passwordResetConfirmation.setOpacity(1.0);
-                        passwordResetConfirmation.setDisable(false);//активна
+
                     } else {
                         setInfoTextLabelText(Responses.Authorization.DATA_CHANGED);
-
                     }
                 }
                 case HttpStatus.SC_ACCEPTED -> {
-                    codeResetPassword.setDisable(true);
-                    codeResetPassword.setOpacity(0.5);
+                    verifyCodeTField.setDisable(true);
+                    verifyCodeBtn.setDisable(true);
+
+                    passwordTField.setDisable(false);
+                    resetConfirmationBtn.setDisable(false);
+
                     setInfoTextLabelText(Responses.Authorization.RESET_CODE_IS_RIGHT);
-                    newPasswordTextField.setVisible(true);
-                    newPasswordTextField.setOpacity(1.0);
-                    newPasswordTextField.setEditable(true);
-                    passwordResetConfirmation.setDisable(true);
-                    passwordResetConfirmation.setOpacity(0.5);
                 }
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR -> {
                     JSONObject resultObject = (JSONObject) parser.parse(response.responseMsg());
@@ -62,74 +85,54 @@ public class PasswordResetController extends Controller {
                         default -> "Неверные данные пользователя";
                     };
 
-
                     setInfoTextLabelText(message);
                 }
             }
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (ParseException e) { throw new RuntimeException(e); }
     }
     @FXML
-    protected void sendCodeToEmail() {
-        Matcher matcherEmail = patternLogin.matcher(emailResetPassword.getText());
-        try {
-            if ((matcherEmail.matches())) {
-                sendCodeResetPasswordBtn.setVisible(false);
-                sendCodeResetPasswordBtn.setDisable(false);
-                codeResetPassword.setOpacity(1.0);
-                codeVerifyBtn.setOpacity(1.0);
-                codeResetPassword.setEditable(true);
-                codeVerifyBtn.setDisable(false);
+    protected void sendCode() {
+        if (!isLoginValid(emailTField.getText())) {
+            setInfoTextLabelText(Responses.Authorization.EMAIL_FORMAT_IS_NOT_VALID);
+            return;
+        }
 
-                JSONObject obj = new JSONObject();
-                obj.put("email", emailResetPassword.getText());
-                loadingCircle.setVisible(true);
-                HttpClient.execute(obj, SEND_CODE, HttpClient.HttpMethods.POST);
-                checkServerResponseIs();
-            } else {
-                setInfoTextLabelText(Responses.Authorization.EMAIL_MESSAGE_FAILED);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        JSONObject obj = new JSONObject();
+        obj.put("email", emailTField.getText());
+
+        loadingCircle.setVisible(true);
+        HttpClient.execute(obj, SEND_CODE, HttpClient.HttpMethods.POST);
+        checkServerResponseIs();
     }
     @FXML
-    protected void codeVerify() {
-        try {
-            clearErrorLabel();
-            Matcher matcherLogin = patternLogin.matcher(emailResetPassword.getText());
-            if ((matcherLogin.matches()) && (!codeResetPassword.getText().equals(""))) {
-                JSONObject obj = new JSONObject();
-                obj.put("email", emailResetPassword.getText());
-                obj.put("code", codeResetPassword.getText());
-                loadingCircle.setVisible(true);
-                HttpClient.execute(obj, Endpoints.CONFIRM_CODE, HttpClient.HttpMethods.POST);
-                checkServerResponseIs();
-            } else {
-                setInfoTextLabelText(Responses.Authorization.VERIFICATION_CODE_IS_NOT_VALID);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    protected void verifyCode() {
+        clearInfoLabel();
+
+        if (!isCodeValid(verifyCodeTField.getText())) {
+            setInfoTextLabelText(Responses.Authorization.VERIFICATION_CODE_IS_NOT_VALID);
+            return;
         }
+
+        JSONObject obj = new JSONObject();
+        obj.put("email", emailTField.getText());
+        obj.put("code", verifyCodeTField.getText());
+        loadingCircle.setVisible(true);
+        HttpClient.execute(obj, Endpoints.CONFIRM_CODE, HttpClient.HttpMethods.POST);
+        checkServerResponseIs();
     }
     @FXML protected void resetAccountData(){
-        try {
-            clearErrorLabel();
-            Matcher matcherLogin = patternLogin.matcher(emailResetPassword.getText());
-            Matcher matcherPassword = patternPassword.matcher(newPasswordTextField.getText());
-            if (matcherLogin.matches() && matcherPassword.matches()) {
-                JSONObject obj = new JSONObject();
-                obj.put("email", emailResetPassword.getText());
-                obj.put("password", newPasswordTextField.getText());
-                loadingCircle.setVisible(true);
-                HttpClient.execute(obj, Endpoints.RESET_PASSWORD, HttpClient.HttpMethods.PUT);
-                checkServerResponseIs();
-            } else {
-                setInfoTextLabelText(Responses.Authorization.PASSWORD_FORMAT_IS_INCORRECT);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        clearInfoLabel();
+
+        if (!isPasswordValid(passwordTField.getText())) {
+            setInfoTextLabelText(Responses.Authorization.PASSWORD_FORMAT_IS_INCORRECT);
+            return;
         }
+
+        JSONObject obj = new JSONObject();
+        obj.put("email", emailTField.getText());
+        obj.put("password", passwordTField.getText());
+        loadingCircle.setVisible(true);
+        HttpClient.execute(obj, Endpoints.RESET_PASSWORD, HttpClient.HttpMethods.PUT);
+        checkServerResponseIs();
     }
 }

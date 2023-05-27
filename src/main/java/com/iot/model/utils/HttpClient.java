@@ -1,5 +1,6 @@
 package com.iot.model.utils;
 import com.iot.model.auth.AuthenticateModel;
+import com.iot.model.constants.Endpoints;
 import javafx.util.Pair;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
@@ -57,7 +58,12 @@ public final class HttpClient {
                 if (obj == null)
                     throw new RuntimeException("Body is empty");
 
-                castedMethod.setEntity(new StringEntity(obj.toString()));
+                if (endPoint.equals(String.format(Endpoints.STATE_CHANGE, 2))) {
+                    System.out.println("::::" + obj.get("sensor"));
+                }
+
+
+                castedMethod.setEntity(new StringEntity(obj.toJSONString()));
                 castedMethod.setHeader("Accept", "application/json");
                 castedMethod.setHeader("Content-type", "application/json");
                 castedMethod.setHeader(authPair.getKey(), authPair.getValue());
