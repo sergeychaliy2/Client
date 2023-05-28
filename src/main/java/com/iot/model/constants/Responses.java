@@ -28,7 +28,7 @@ public final class Responses {
     }
 
     public static final class Socket {
-        public static final String UUID_FORMAT_IS_NOT_CORRECT = "Формат введённого айди неправильный";
+        public static final String UUID_FORMAT_IS_NOT_CORRECT = "Введенный айди не соответствует\n определенному формату";
         public static final String BOARD_WAS_NOT_FOUND = "Устройство не было найдено";
         public static final String BOARD_WAS_FOUND_RU = "Устройство было найдено";
         public static final String CLIENT_SEARCHING = "Поиск клиента...";
@@ -46,7 +46,7 @@ public final class Responses {
         public static final String DEVICE_LISTENING_STATE_WAS_RESET = "Device listening state was reset";
         public static final String USER_OR_DEVICE_WAS_NOT_FOUND = "Пользователь или устройство не было найдено\n" +
                 "Обратитесь в техническую поддержку";
-        public static final String DEVICE_STATE_RESET = "Прослушивание устройство сброшено";
+        public static final String DEVICE_STATE_RESET = "Прослушивание устройства сброшено";
         public static final String SENSOR_STATE_UPDATED = "Состояние датчика обновлено";
         public static final String SENSOR_WAS_NOT_FOUND = "Датчик не был найден";
         public static final String DEVICE_STATE_WAS_NOT_UPDATED = "Состояние устройства не было обновлено";

@@ -84,6 +84,7 @@ public class ManagementController extends Manager {
                             (long) obj.get("deviceId"),
                             obj.get("deviceName").toString(),
                             obj.get("deviceDescription").toString(),
+                            obj.get("boardId").toString(),
                             ++counter
                     )
             );

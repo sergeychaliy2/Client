@@ -102,7 +102,9 @@ public abstract class Manager extends Controller {
     @FXML
     protected void resetDeviceListening() {
         DeviceDefinition deviceDefinition = introDeviceInfo.getSelectionModel().getSelectedItem();
-        HttpClient.execute(null, String.format(Endpoints.RESET_STATUS, deviceDefinition.id()), HttpClient.HttpMethods.GET);
+        JSONObject obj = new JSONObject();
+        obj.put("boardId", deviceDefinition.boardId());
+        HttpClient.execute(obj, Endpoints.RESET_STATUS, HttpClient.HttpMethods.POST);
         checkServerResponseIs();
     }
 
@@ -200,13 +202,15 @@ public abstract class Manager extends Controller {
                 return;
             }
         }
-        DetailedDevice device = sensorsList.getSelectionModel().getSelectedItem();
+        DetailedDevice detailedInfo = sensorsList.getSelectionModel().getSelectedItem();
+        DeviceDefinition commonInfo = introDeviceInfo.getSelectionModel().getSelectedItem();
 
         JSONObject obj = new JSONObject();
-        obj.put("sensor", device.sensorName());
+        obj.put("boardId", commonInfo.boardId());
+        obj.put("sensor", detailedInfo.sensorName());
         obj.put("state", state);
 
-        HttpClient.execute(obj, String.format(STATE_CHANGE, device.deviceId()), HttpClient.HttpMethods.PUT);
+        HttpClient.execute(obj, String.format(STATE_CHANGE, detailedInfo.deviceId()), HttpClient.HttpMethods.PUT);
         checkServerResponseIs();
     }
 
@@ -215,9 +219,11 @@ public abstract class Manager extends Controller {
         setChangingStatePaneVisible(false, null);
         setFullDescPaneDisable(false);
 
-        isArrayWaiting = false;
         DeviceDefinition deviceDefinition = introDeviceInfo.getSelectionModel().getSelectedItem();
-        HttpClient.execute(null, String.format(Endpoints.ONE_DEVICE, deviceDefinition.id()), HttpClient.HttpMethods.GET);
+        JSONObject obj = new JSONObject();
+        obj.put("boardId", deviceDefinition.boardId());
+        isArrayWaiting = false;
+        HttpClient.execute(obj, String.format(Endpoints.ONE_DEVICE, deviceDefinition.id()), HttpClient.HttpMethods.POST);
         checkServerResponseIs();
     }
 
@@ -304,7 +310,10 @@ public abstract class Manager extends Controller {
             if (event.getClickCount() == 2) {
                 isArrayWaiting = false;
                 DeviceDefinition device = introDeviceInfo.getSelectionModel().getSelectedItem();
-                HttpClient.execute(null, String.format(Endpoints.ONE_DEVICE, device.id()), HttpClient.HttpMethods.GET);
+                JSONObject obj = new JSONObject();
+                obj.put("boardId", device.boardId());
+
+                HttpClient.execute(obj, String.format(Endpoints.ONE_DEVICE, device.id()), HttpClient.HttpMethods.POST);
                 checkServerResponseIs();
             }
         });

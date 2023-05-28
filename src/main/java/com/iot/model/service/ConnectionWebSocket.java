@@ -70,19 +70,6 @@ public class ConnectionWebSocket extends WebSocketClient {
                 }
 
                 box.setVisible(false);
-                VBox vBox = (VBox) box.getChildren().get(0);
-                vBox.setVisible(false);
-
-                box.getChildren()
-                        .stream()
-                        .filter(it-> !it.equals(loadingCircle) && !it.equals(vBox))
-                        .forEach(it->
-                                {
-                                    it.setDisable(true);
-                                    it.setVisible(true);
-                                }
-                        );
-
                 this.close();
             }
         }

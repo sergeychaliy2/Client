@@ -1,19 +1,14 @@
 package com.iot.model.utils;
 import com.iot.model.auth.AuthenticateModel;
-import com.iot.model.constants.Endpoints;
 import javafx.util.Pair;
-import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.*;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import static com.iot.model.constants.Endpoints.UPDATE_TOKEN;
