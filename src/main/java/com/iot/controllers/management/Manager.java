@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import static com.iot.model.constants.Endpoints.DEVICE_GETTING_UPDATES;
 import static com.iot.model.constants.Endpoints.STATE_CHANGE;
@@ -88,7 +89,7 @@ public abstract class Manager extends Controller {
 
         String userUUID = uuidTextLabel.getText();
         try {
-//            UUID.fromString(userUUID);
+            UUID.fromString(userUUID);
             setUpResolvingConnectionWebSocket();
             setUpConnectionWebSocket(userUUID);
             connectionWS.connect();
