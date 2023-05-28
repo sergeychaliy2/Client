@@ -59,6 +59,7 @@ public abstract class Manager extends Controller {
     protected Label sensorLogicStateLabel;
     @FXML
     protected TextField changingNumericStateField;
+
     protected ConnectionWebSocket connectionWS;
     protected ResolvingConnectionsWebSocket resolvingConnectionsWS;
     private boolean isConnectionWindowOpen = false;
@@ -73,21 +74,9 @@ public abstract class Manager extends Controller {
     protected void findDeviceBtnClicked() {
         if (fullDeviceDescriptionPane.isVisible()) return;
         if (loadingCircle.isVisible()) loadingCircle.setVisible(false);
-
         infoTextLabel.setText("");
 
         connectionWindowPane.setVisible(!isConnectionWindowOpen);
-        connectionWindowVBox.setVisible(!isConnectionWindowOpen);
-        connectionWindowVBox
-                .getChildren()
-                .stream()
-                .filter(it-> !it.equals(loadingCircle))
-                .forEach(it ->
-                        {
-                            it.setVisible(!isConnectionWindowOpen);
-                            it.setDisable(isConnectionWindowOpen);
-                        }
-                );
         isConnectionWindowOpen = !isConnectionWindowOpen;
     }
 
@@ -95,7 +84,6 @@ public abstract class Manager extends Controller {
     protected void findNewDevice(){
         if (resolvingConnectionsWS.isOpen()) {
             resolvingConnectionsWS.close();
-            System.out.println("Закрыт");
         }
 
         String userUUID = uuidTextLabel.getText();
@@ -110,6 +98,12 @@ public abstract class Manager extends Controller {
         }
     }
 
+    @FXML
+    protected void resetDeviceListening() {
+        DeviceDefinition deviceDefinition = introDeviceInfo.getSelectionModel().getSelectedItem();
+        HttpClient.execute(null, String.format(Endpoints.RESET_STATUS, deviceDefinition.id()), HttpClient.HttpMethods.GET);
+        checkServerResponseIs();
+    }
 
 
     @FXML
@@ -173,6 +167,7 @@ public abstract class Manager extends Controller {
     @FXML
     protected void fullDescPaneBackBtnClicked() {
         setFullDescPaneVisible(false);
+        updateIntroList();
     }
 
     @FXML
@@ -205,8 +200,6 @@ public abstract class Manager extends Controller {
             }
         }
         DetailedDevice device = sensorsList.getSelectionModel().getSelectedItem();
-        System.out.println(device.sensorName());
-        System.out.println(device.deviceId());
 
         JSONObject obj = new JSONObject();
         obj.put("sensor", device.sensorName());
@@ -220,6 +213,18 @@ public abstract class Manager extends Controller {
     protected void changingStateBackBtnClicked() {
         setChangingStatePaneVisible(false, null);
         setFullDescPaneDisable(false);
+
+        isArrayWaiting = false;
+        DeviceDefinition deviceDefinition = introDeviceInfo.getSelectionModel().getSelectedItem();
+        HttpClient.execute(null, String.format(Endpoints.ONE_DEVICE, deviceDefinition.id()), HttpClient.HttpMethods.GET);
+        checkServerResponseIs();
+    }
+
+    @FXML
+    protected void updateIntroList() {
+        isArrayWaiting = true;
+        HttpClient.execute(null, Endpoints.ALL_DEVICES, HttpClient.HttpMethods.GET);
+        checkServerResponseIs();
     }
 
     protected void setIntroDeviceDescPaneDisabled(boolean state) {

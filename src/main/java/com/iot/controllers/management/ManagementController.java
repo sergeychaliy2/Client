@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
@@ -17,6 +18,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.List;
 import java.util.Set;
 
 import static com.iot.model.constants.Responses.Service.*;
@@ -25,6 +27,12 @@ import static com.iot.model.utils.AlertDialog.CustomAlert.*;
 
 public class ManagementController extends Manager {
     private int tokenExpiredRequestsCounter = 0;
+    @FXML
+    private Button findDeviceBtn;
+    @FXML
+    private Button findDeviceServiceBarBtn;
+    @FXML
+    private Button submitChangingStateBtn;
 
     private void setOnCloseOperation() {
         new Thread(() -> {
@@ -46,6 +54,8 @@ public class ManagementController extends Manager {
             AlertDialog.alertOf(EXCEPTION, "Уведомление", YOU_ARE_NOT_LOGIN_IN);
             homeScene();
         }
+
+        setButtonsReactionOnAction(List.of(findDeviceServiceBarBtn, findDeviceBtn, submitChangingStateBtn));
 
         setUpResolvingConnectionWebSocket();
         resolvingConnectionsWS.connect();
@@ -99,8 +109,14 @@ public class ManagementController extends Manager {
                             throw new RuntimeException("Unknown message");
                         }
 
+                        String msg = switch (responseMessage) {
+                            case DEVICE_STATE_HAS_BEEN_UPDATED -> SENSOR_STATE_UPDATED;
+                            case DEVICE_LISTENING_STATE_WAS_RESET -> DEVICE_STATE_RESET;
+                            default -> throw new RuntimeException("Unknown option");
+                        };
+
                         Platform.runLater(() ->
-                                AlertDialog.alertOf(INFORMATION, "Уведомление", responseMessage).showAndWait()
+                                AlertDialog.alertOf(INFORMATION, "Уведомление", msg).showAndWait()
                         );
 
                     } catch (Exception e) {
@@ -116,9 +132,7 @@ public class ManagementController extends Manager {
                         } catch(Exception ignore) {}
 
                         if (isArrayWaiting) {
-                            collectDevicesToList(
-                                    (JSONArray) resultObject.get("deviceListInfo")
-                            );
+                            Platform.runLater(()-> collectDevicesToList((JSONArray) resultObject.get("deviceListInfo")));
                         } else {
                             JSONObject obj = (JSONObject) resultObject.get("deviceInfo");
                             JSONObject sensors = (JSONObject) parser.parse(obj.get("sensorsState").toString());

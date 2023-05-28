@@ -6,11 +6,14 @@ import com.iot.model.utils.HttpClient;
 import com.iot.model.utils.ServerResponse;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.util.List;
 
 import static com.iot.model.constants.Endpoints.CHANGE_USER_DATA;
 import static com.iot.model.constants.Responses.Authorization.DATA_CHANGED;
@@ -22,7 +25,13 @@ public class PersonalDataController extends Controller {
 
     @FXML private TextField repeatPasswordTField;
     @FXML private TextField passwordTField;
+    @FXML private Button submitBtn;
     private int tokenExpiredRequestsCounter = 0;
+
+    @FXML
+    protected void initialize() {
+        setButtonsReactionOnAction(List.of(submitBtn));
+    }
 
 
     @Override

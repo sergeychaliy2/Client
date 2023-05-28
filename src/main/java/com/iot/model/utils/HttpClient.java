@@ -2,7 +2,9 @@ package com.iot.model.utils;
 import com.iot.model.auth.AuthenticateModel;
 import com.iot.model.constants.Endpoints;
 import javafx.util.Pair;
+import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.*;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -11,6 +13,7 @@ import org.json.simple.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import static com.iot.model.constants.Endpoints.UPDATE_TOKEN;
@@ -51,27 +54,19 @@ public final class HttpClient {
             method.setHeader(authPair.getKey(), authPair.getValue());
             new HttpClientRunner().setOption(method).start();
         } else {
-            try {
-                if (!(method instanceof HttpEntityEnclosingRequestBase castedMethod))
-                    throw new RuntimeException("Method is not instance of HttpEntityEnclosingRequestBase.class");
+            if (!(method instanceof HttpEntityEnclosingRequestBase castedMethod))
+                throw new RuntimeException("Method is not instance of HttpEntityEnclosingRequestBase.class");
 
-                if (obj == null)
-                    throw new RuntimeException("Body is empty");
+            if (obj == null)
+                throw new RuntimeException("Body is empty");
 
-                if (endPoint.equals(String.format(Endpoints.STATE_CHANGE, 2))) {
-                    System.out.println("::::" + obj.get("sensor"));
-                }
+            castedMethod.setEntity(new StringEntity(obj.toJSONString(), StandardCharsets.UTF_8));
+            castedMethod.setHeader("Accept", "application/json");
+            castedMethod.setHeader("Content-type", "application/json");
+            castedMethod.setHeader(authPair.getKey(), authPair.getValue());
 
 
-                castedMethod.setEntity(new StringEntity(obj.toJSONString()));
-                castedMethod.setHeader("Accept", "application/json");
-                castedMethod.setHeader("Content-type", "application/json");
-                castedMethod.setHeader(authPair.getKey(), authPair.getValue());
-
-                new HttpClientRunner().setOption(castedMethod).start();
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+            new HttpClientRunner().setOption(castedMethod).start();
         }
 
     }
@@ -95,7 +90,6 @@ class HttpClientRunner extends Thread {
                     EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8)
             );
             AuthenticateModel.getInstance().setResponse(responseData);
-            System.out.println(responseData);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

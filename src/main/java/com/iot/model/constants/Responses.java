@@ -46,6 +46,8 @@ public final class Responses {
         public static final String DEVICE_LISTENING_STATE_WAS_RESET = "Device listening state was reset";
         public static final String USER_OR_DEVICE_WAS_NOT_FOUND = "Пользователь или устройство не было найдено\n" +
                 "Обратитесь в техническую поддержку";
+        public static final String DEVICE_STATE_RESET = "Прослушивание устройство сброшено";
+        public static final String SENSOR_STATE_UPDATED = "Состояние датчика обновлено";
         public static final String SENSOR_WAS_NOT_FOUND = "Датчик не был найден";
         public static final String DEVICE_STATE_WAS_NOT_UPDATED = "Состояние устройства не было обновлено";
         public static final String DEVICE_IS_NOT_LISTENING = "Устройство не присоединено к серверу";
@@ -54,7 +56,7 @@ public final class Responses {
         public static final String SETTINGS_WAS_RESET = "Настройки были сброшены";
         public static final String EXIT_SUGGESTION = "Вы хотите выйти?";
         public static final String AT_LEAST_ONE_STATE_MUST_BE_USING = "Вам необходимо выбрать хотя бы одно состояние перед подтверждением";
-        public static final String SENSOR_STATE_MUST_BE_ONLY_NUMERIC = "Состояние датчика может быть только числовым";
+        public static final String SENSOR_STATE_MUST_BE_ONLY_NUMERIC = "Состояние датчика может быть\nтолько числовым";
     }
     public static final class PersonalData {
         private PersonalData() {}
